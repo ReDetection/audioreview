@@ -102,7 +102,7 @@ class ArtistShow extends Component {
           { this.renderSongsList() }
         </ParallaxScrollView>
         <View style={ styles.headerClose }>
-          <Icon onPress={ Actions.pop } name="chevron-left" size={15} color="#fff" />
+          <Icon onPress={ Actions.pop } name="ios-arrow-back" size={15} color="#fff" />
         </View>
       </View>
     );

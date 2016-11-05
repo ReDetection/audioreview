@@ -118,23 +118,23 @@ class Player extends Component {
 
     let forwardButton;
     if( !this.state.shuffle && this.state.songIndex + 1 === this.props.songs.length ){
-      forwardButton = <Icon style={ styles.forward } name="ios-skipforward" size={25} color="#333" />;
+      forwardButton = <Icon style={ styles.forward } name="ios-skip-forward" size={25} color="#333" />;
     } else {
-      forwardButton = <Icon onPress={ this.goForward.bind(this) } style={ styles.forward } name="ios-skipforward" size={25} color="#fff" />;
+      forwardButton = <Icon onPress={ this.goForward.bind(this) } style={ styles.forward } name="ios-skip-forward" size={25} color="#fff" />;
     }
 
     let volumeButton;
     if( this.state.muted ){
-      volumeButton = <Icon onPress={ this.toggleVolume.bind(this) } style={ styles.volume } name="android-volume-off" size={18} color="#fff" />;
+      volumeButton = <Icon onPress={ this.toggleVolume.bind(this) } style={ styles.volume } name="md-volume-off" size={18} color="#fff" />;
     } else {
-      volumeButton = <Icon onPress={ this.toggleVolume.bind(this) } style={ styles.volume } name="android-volume-up" size={18} color="#fff" />;
+      volumeButton = <Icon onPress={ this.toggleVolume.bind(this) } style={ styles.volume } name="md-volume-up" size={18} color="#fff" />;
     }
 
     let shuffleButton;
     if( this.state.shuffle ){
-      shuffleButton = <Icon onPress={ this.toggleShuffle.bind(this) } style={ styles.shuffle } name="ios-shuffle-strong" size={18} color="#f62976" />;
+      shuffleButton = <Icon onPress={ this.toggleShuffle.bind(this) } style={ styles.shuffle } name="ios-shuffle" size={18} color="#f62976" />;
     } else {
-      shuffleButton = <Icon onPress={ this.toggleShuffle.bind(this) } style={ styles.shuffle } name="ios-shuffle-strong" size={18} color="#fff" />;
+      shuffleButton = <Icon onPress={ this.toggleShuffle.bind(this) } style={ styles.shuffle } name="ios-shuffle" size={18} color="#fff" />;
     }
 
     let image = songPlaying.albumImage ? songPlaying.albumImage : this.props.artist.background;
@@ -157,7 +157,7 @@ class Player extends Component {
           </Text>
         </View>
         <View style={ styles.headerClose }>
-          <Icon onPress={ Actions.pop } name="chevron-down" size={15} color="#fff" />
+          <Icon onPress={ Actions.pop } name="ios-arrow-back" size={15} color="#fff" />
         </View>
         <Image
           style={ styles.songImage }
@@ -188,7 +188,7 @@ class Player extends Component {
         </View>
         <View style={ styles.controls }>
           { shuffleButton }
-          <Icon onPress={ this.goBackward.bind(this) } style={ styles.back } name="ios-skipbackward" size={25} color="#fff" />
+          <Icon onPress={ this.goBackward.bind(this) } style={ styles.back } name="ios-skip-backward" size={25} color="#fff" />
           { playButton }
           { forwardButton }
           { volumeButton }
