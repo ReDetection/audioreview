@@ -1,7 +1,9 @@
 'use strict';
 import React, {
-  AppRegistry,
   Component,
+} from 'react';
+import {
+  AppRegistry,
   Dimensions,
   StyleSheet,
   Image,
