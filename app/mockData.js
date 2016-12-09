@@ -1,4 +1,4 @@
-const Artists = [
+const Albums = [
   {
     name: "Breakbot",
     background: "http://jgnatch-dropshare.s3.amazonaws.com/Screen-Shot-2016-03-01-15-29-06/Screen-Shot-2016-03-01-15-29-06.png",
@@ -214,4 +214,4 @@ const Artists = [
   },
 ]
 
-module.exports = { Artists: Artists };
+module.exports = { Albums: Albums };

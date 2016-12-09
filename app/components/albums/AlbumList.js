@@ -3,7 +3,6 @@ import React, {
   Component,
 } from 'react';
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   ListView,
@@ -11,16 +10,16 @@ import {
 } from 'react-native';
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
-import { Artists } from '../../mockData';
-import ArtistListItem from './ArtistListItem';
+import { Albums } from '../../mockData';
+import AlbumItem from './AlbumItem';
 
 
-class ArtistList extends Component {
+class AlbumList extends Component {
   constructor(props){
     super(props);
     let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      dataSource: ds.cloneWithRows( Artists ),
+      dataSource: ds.cloneWithRows( Albums ),
     }
   }
 
@@ -28,11 +27,11 @@ class ArtistList extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Artists
+          Albums
         </Text>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={ ( artist ) => <ArtistListItem artist={ artist } /> }/>
+          renderRow={ ( album ) => <AlbumItem artist={ album } /> }/>
       </View>
     );
   }
@@ -58,4 +57,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = ArtistList;
+module.exports = AlbumList;

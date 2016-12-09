@@ -3,14 +3,12 @@ import React, {
   Component,
 } from 'react';
 import {
-  AppRegistry,
   Image,
   Dimensions,
   StyleSheet,
   Text,
   View
 } from 'react-native';
-import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Slider from 'react-native-slider';

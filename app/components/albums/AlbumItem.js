@@ -3,23 +3,20 @@ import React, {
   Component,
 } from 'react';
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   TouchableHighlight,
-  ListView,
   View,
   Image,
 } from 'react-native';
-import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
-import { Artists } from '../../mockData';
+import { Albums } from '../../mockData';
 
 
-class ArtistListItem extends Component {
+class AlbumItem extends Component {
   render() {
     return (
-      <TouchableHighlight onPress={ () => Actions.artistShow({ artist: this.props.artist}) } activeOpacity={ 100 } underlayColor="#ea4b54">
+      <TouchableHighlight onPress={ () => Actions.albumShow({ artist: this.props.artist}) } activeOpacity={ 100 } underlayColor="#ea4b54">
         <Image
           style={ styles.artistBg }
           resizeMode='cover'
@@ -60,4 +57,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = ArtistListItem;
+module.exports = AlbumItem;
