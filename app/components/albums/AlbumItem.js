@@ -10,7 +10,6 @@ import {
   Image,
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
-import { Albums } from '../../mockData';
 
 
 class AlbumItem extends Component {
@@ -20,11 +19,11 @@ class AlbumItem extends Component {
         <Image
           style={ styles.artistBg }
           resizeMode='cover'
-          source={{uri:  this.props.artist.background  }}
+          source={{uri:  this.props.repetition.imageURL  }}
         >
         <View style={ styles.container }>
-          <Text style={ styles.artistName }>{ this.props.artist.name }</Text>
-          <Text style={ styles.artistSongs }>{ this.props.artist.songs.length } songs</Text>
+          <Text style={ styles.artistName }>{ this.props.repetition.title }</Text>
+          <Text style={ styles.artistSongs }>{ this.props.repetition.tracks.length } songs</Text>
         </View>
         </Image>
       </TouchableHighlight>

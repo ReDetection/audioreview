@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
-import { Albums } from '../../mockData';
+import { model } from '../../Model';
 import AlbumItem from './AlbumItem';
 
 
@@ -19,7 +19,7 @@ class AlbumList extends Component {
     super(props);
     let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      dataSource: ds.cloneWithRows( Albums ),
+      dataSource: ds.cloneWithRows( model.repetitions ),
     }
   }
 
@@ -31,7 +31,7 @@ class AlbumList extends Component {
         </Text>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={ ( album ) => <AlbumItem artist={ album } /> }/>
+          renderRow={ ( album ) => <AlbumItem repetition={ album } /> }/>
       </View>
     );
   }
