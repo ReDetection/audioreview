@@ -10,8 +10,8 @@ import {
   TouchableHighlight,
   Text,
   View,
-  ListView
 } from 'react-native';
+import { ListView } from 'realm/react-native';
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
@@ -28,7 +28,7 @@ class ArtistShow extends Component {
   renderStickyHeader() {
     return(
       <View style={ styles.stickySection }>
-        <Text style={ styles.stickySectionTitle }>{ this.props.artist.name }</Text>
+        <Text style={ styles.stickySectionTitle }>{ this.props.repetition.name }</Text>
       </View>
     );
   }
@@ -37,16 +37,16 @@ class ArtistShow extends Component {
     return(
       <View key="parallax-header" style={ styles.parallaxHeader }>
         <Image style={ styles.avatar } source={{
-          uri:  this.props.artist.background,
+          uri:  this.props.repetition.imageURL,
           width: AVATAR_SIZE,
           height: AVATAR_SIZE
         }}/>
         <Text style={ styles.artistName }>
-          { this.props.artist.name }
+          { this.props.repetition.title }
         </Text>
         <View style={ styles.playButton }>
           <Text
-            onPress={ () => Actions.player({ songIndex: 0, songs: this.props.artist.songs, image: this.props.artist.background, artist: this.props.artist }) }
+            onPress={ () => Actions.player({ songIndex: 0, songs: this.props.repeptition.tracks, image: this.props.artist.imageURL, repetition: this.props.repetition }) }
             style={ styles.playButtonText }>
             PLAY
           </Text>
@@ -58,7 +58,7 @@ class ArtistShow extends Component {
   renderBackground() {
     return(
       <View key="background" style={ styles.background }>
-        <Image source={{uri: this.props.artist.background,
+        <Image source={{uri: this.props.repetition.imageURL,
                         width: window.width,
                         height: PARALLAX_HEADER_HEIGHT}}/>
         <View style={ styles.backgroundOverlay }/>
@@ -67,13 +67,13 @@ class ArtistShow extends Component {
   }
 
   renderSongsList() {
-    let songsDataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }).cloneWithRows( this.props.artist.songs );
+    let songsDataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }).cloneWithRows( this.props.repetition.tracks );
     return(
       <ListView
         dataSource={ songsDataSource }
         style={ styles.songsList }
         renderRow={(song, sectionId, rowId) => (
-          <TouchableHighlight onPress={ () => Actions.player({ songIndex: parseInt( rowId ), songs: this.props.artist.songs, artist: this.props.artist }) } activeOpacity={ 100 } underlayColor="rgba(246, 41, 118, 0.6)">
+          <TouchableHighlight onPress={ () => Actions.player({ songIndex: parseInt( rowId ), songs: this.props.repetition.tracks, repetition: this.props.repetition }) } activeOpacity={ 100 } underlayColor="rgba(246, 41, 118, 0.6)">
             <View key={song} style={ styles.song }>
               <Text style={ styles.songTitle }>
                 { song.title }

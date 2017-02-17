@@ -135,10 +135,10 @@ class Player extends Component {
       shuffleButton = <Icon onPress={ this.toggleShuffle.bind(this) } style={ styles.shuffle } name="ios-shuffle" size={18} color="#fff" />;
     }
 
-    let image = songPlaying.albumImage ? songPlaying.albumImage : this.props.artist.background;
+    let image = songPlaying.albumImage ? songPlaying.albumImage : this.props.image;
     return (
       <View style={styles.container}>
-        <Video source={{uri: songPlaying.url }}
+        <Video source={{uri: songPlaying.trackURL }}
             ref="audio"
             volume={ this.state.muted ? 0 : 1.0}
             muted={false}
@@ -151,17 +151,12 @@ class Player extends Component {
 
         <View style={ styles.header }>
           <Text style={ styles.headerText }>
-            { this.props.artist.name }
+            { this.props.repetition.title }
           </Text>
         </View>
         <View style={ styles.headerClose }>
           <Icon onPress={ Actions.pop } name="ios-arrow-back" size={15} color="#fff" />
         </View>
-        <Image
-          style={ styles.songImage }
-          source={{uri: image,
-                        width: window.width - 30,
-                        height: 300}}/>
         <Text style={ styles.songTitle }>
           { songPlaying.title }
         </Text>

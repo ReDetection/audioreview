@@ -5,9 +5,9 @@ import React, {
 import {
   StyleSheet,
   Text,
-  ListView,
   View
 } from 'react-native';
+import { ListView } from 'realm/react-native';
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 import { model } from '../../Model';

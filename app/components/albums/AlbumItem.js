@@ -15,7 +15,7 @@ import {Actions} from 'react-native-router-flux';
 class AlbumItem extends Component {
   render() {
     return (
-      <TouchableHighlight onPress={ () => Actions.albumShow({ artist: this.props.artist}) } activeOpacity={ 100 } underlayColor="#ea4b54">
+      <TouchableHighlight onPress={ () => Actions.albumShow({ repetition: this.props.repetition }) } activeOpacity={ 100 } underlayColor="#ea4b54">
         <Image
           style={ styles.artistBg }
           resizeMode='cover'
