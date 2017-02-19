@@ -214,7 +214,7 @@ class Player extends Component {
           { forwardButton }
           { volumeButton }
         </View>
-        <View style={styles.container}>
+        <View style={styles.composeToolbar}>
           {this.renderInputToolbar()}
         </View>
       </View>
@@ -241,6 +241,9 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 20,
     paddingRight: 20,
+  },
+  composeToolbar: {
+    width: window.width,
   },
   headerText: {
     color: "#FFF",
