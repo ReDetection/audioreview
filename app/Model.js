@@ -15,6 +15,7 @@ const TrackSchema = {
     title:     'string',
     duration: {type: 'int', default: 0},
     trackURL:  'string',
+    comments: {type: 'list', objectType: 'Comment'},
   }
 };
 const CommentSchema = {
@@ -41,4 +42,7 @@ class Model {
 };
 
 
-module.exports = { model: new Model(new Realm({schema: [RepetitionSchema, TrackSchema, CommentSchema]})) };
+module.exports = { model: new Model(new Realm({
+    schema: [RepetitionSchema, TrackSchema, CommentSchema],
+    schemaVersion: 1,
+})) };
