@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   StyleSheet,
+  Platform,
   Text,
   View
 } from 'react-native';
@@ -13,6 +14,7 @@ import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Slider from 'react-native-slider';
 import Video from 'react-native-video';
+import InputToolbar from './InputToolbar';
 
 
 const window = Dimensions.get('window');
@@ -97,6 +99,32 @@ class Player extends Component {
     this.setState({ playing: false });
   }
 
+  renderInputToolbar() {
+    const inputToolbarProps = {
+      ...this.props,
+      text: "write comment here",//this.state.text,
+      composerHeight: Math.max(MIN_COMPOSER_HEIGHT, this.state.composerHeight),
+      onSend: this.onSend,
+      onInputSizeChanged: this.onInputSizeChanged,
+      onTextChanged: this.onInputTextChanged,
+      textInputProps: {
+        ...this.props.textInputProps,
+        ref: textInput => this.textInput = textInput,
+        // maxLength: this.getIsTypingDisabled() ? 0 : null
+      }
+    };
+    // if (this.getIsTypingDisabled()) {
+    //   inputToolbarProps.textInputProps.maxLength = 0;
+    // }
+    if (this.props.renderInputToolbar) {
+      return this.props.renderInputToolbar(inputToolbarProps);
+    }
+    return (
+      <InputToolbar
+        {...inputToolbarProps}
+      />
+    );
+  }
 
   render() {
     let songPlaying = this.props.songs[this.state.songIndex];
@@ -185,6 +213,9 @@ class Player extends Component {
           { playButton }
           { forwardButton }
           { volumeButton }
+        </View>
+        <View style={styles.container}>
+          {this.renderInputToolbar()}
         </View>
       </View>
     );
@@ -289,6 +320,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
   }
 });
+
+const MIN_COMPOSER_HEIGHT = Platform.select({
+  ios: 33,
+  android: 41,
+});
+const MAX_COMPOSER_HEIGHT = 100;
+const MIN_INPUT_TOOLBAR_HEIGHT = 44;
 
 //TODO: Move this to a Utils file
 function withLeadingZero(amount){
