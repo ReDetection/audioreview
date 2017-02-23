@@ -90,7 +90,7 @@ class ArtistShow extends Component {
   render() {
     const { onScroll = () => {} } = this.props;
     return (
-      <View>
+      <View style={styles.background}>
         <ParallaxScrollView
           style={ { position: "absolute", top: 0, bottom: 0, left: 0, right: 0, width: window.width, height: window.height } }
           parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
