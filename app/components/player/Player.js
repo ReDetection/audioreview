@@ -190,13 +190,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
   },
   header: {
+    paddingTop: 10,
     marginTop: 17,
     marginBottom: 17,
     width: window.width,
   },
   headerClose: {
     position: 'absolute',
-    top: 10,
+    top: 20,
     left: 0,
     paddingTop: 10,
     paddingBottom: 10,

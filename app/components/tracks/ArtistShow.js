@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   },
   headerClose: {
     position: 'absolute',
-    top: 10,
+    top: 20,
     left: 0,
     paddingTop: 10,
     paddingBottom: 10,
