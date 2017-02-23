@@ -14,7 +14,6 @@ import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Slider from 'react-native-slider';
 import Video from 'react-native-video';
-import InputToolbar from './InputToolbar';
 
 
 const window = Dimensions.get('window');
@@ -99,31 +98,10 @@ class Player extends Component {
     this.setState({ playing: false });
   }
 
-  renderInputToolbar() {
-    const inputToolbarProps = {
-      ...this.props,
-      text: "write comment here",//this.state.text,
-      composerHeight: Math.max(MIN_COMPOSER_HEIGHT, this.state.composerHeight),
-      onSend: this.onSend,
-      onInputSizeChanged: this.onInputSizeChanged,
-      onTextChanged: this.onInputTextChanged,
-      textInputProps: {
-        ...this.props.textInputProps,
-        ref: textInput => this.textInput = textInput,
-        // maxLength: this.getIsTypingDisabled() ? 0 : null
-      }
-    };
-    // if (this.getIsTypingDisabled()) {
-    //   inputToolbarProps.textInputProps.maxLength = 0;
-    // }
-    if (this.props.renderInputToolbar) {
-      return this.props.renderInputToolbar(inputToolbarProps);
-    }
-    return (
-      <InputToolbar
-        {...inputToolbarProps}
-      />
-    );
+  onTapCompose() {
+    let songPlaying = this.props.songs[this.state.songIndex];
+    Actions.compose({song: songPlaying, second: this.state.currentTime});
+    this.setState({ playing: false });
   }
 
   render() {
@@ -147,20 +125,6 @@ class Player extends Component {
       forwardButton = <Icon style={ styles.forward } name="ios-skip-forward" size={25} color="#333" />;
     } else {
       forwardButton = <Icon onPress={ this.goForward.bind(this) } style={ styles.forward } name="ios-skip-forward" size={25} color="#fff" />;
-    }
-
-    let volumeButton;
-    if( this.state.muted ){
-      volumeButton = <Icon onPress={ this.toggleVolume.bind(this) } style={ styles.volume } name="md-volume-off" size={18} color="#fff" />;
-    } else {
-      volumeButton = <Icon onPress={ this.toggleVolume.bind(this) } style={ styles.volume } name="md-volume-up" size={18} color="#fff" />;
-    }
-
-    let shuffleButton;
-    if( this.state.shuffle ){
-      shuffleButton = <Icon onPress={ this.toggleShuffle.bind(this) } style={ styles.shuffle } name="ios-shuffle" size={18} color="#f62976" />;
-    } else {
-      shuffleButton = <Icon onPress={ this.toggleShuffle.bind(this) } style={ styles.shuffle } name="ios-shuffle" size={18} color="#fff" />;
     }
 
     let image = songPlaying.albumImage ? songPlaying.albumImage : this.props.image;
@@ -208,15 +172,12 @@ class Player extends Component {
           </View>
         </View>
         <View style={ styles.controls }>
-          { shuffleButton }
           <Icon onPress={ this.goBackward.bind(this) } style={ styles.back } name="ios-skip-backward" size={25} color="#fff" />
           { playButton }
           { forwardButton }
-          { volumeButton }
         </View>
-        <View style={styles.composeToolbar}>
-          {this.renderInputToolbar()}
-        </View>
+        <Icon style={styles.headerComment} name="ios-chatbubbles-outline" size={25} color="#fff" onPress = { this.onTapCompose.bind(this) }/>
+       
       </View>
     );
   }
@@ -242,6 +203,16 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
   },
+  headerComment: {
+    position: 'absolute',
+    top: 16,
+    right: 0,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+
   composeToolbar: {
     width: window.width,
   },

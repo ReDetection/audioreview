@@ -39,6 +39,12 @@ class Model {
         return this.realm.objects('Repetition');
     }
 
+    createComment(text, song, second, author) {
+        this.realm.write(()=>{
+          song.comments.push({text: text, author: author, second: second, date: new Date()});
+        });
+    }
+
 };
 
 
