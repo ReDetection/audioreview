@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {Router, Schema, Scene} from 'react-native-router-flux';
 import AlbumList from './components/albums/AlbumList';
-import ArtistShow from './components/albums/ArtistShow';
+import ArtistShow from './components/tracks/ArtistShow';
 import Player from './components/player/Player';
 
 class RouterComponent extends Component {
