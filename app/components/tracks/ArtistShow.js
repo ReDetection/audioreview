@@ -17,6 +17,7 @@ import {Actions} from 'react-native-router-flux';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BackButton from '../general/BackButton';
+import RoundedButton from '../general/RoundedButton';
 
 const window = Dimensions.get('window');
 const PARALLAX_HEADER_HEIGHT = 280;
@@ -45,13 +46,8 @@ class ArtistShow extends Component {
         <Text style={ styles.artistName }>
           { this.props.repetition.title }
         </Text>
-        <View style={ styles.playButton }>
-          <Text
-            onPress={ () => Actions.player({ songIndex: 0, songs: this.props.repeptition.tracks, image: this.props.artist.imageURL, repetition: this.props.repetition }) }
-            style={ styles.playButtonText }>
-            PLAY
-          </Text>
-        </View>
+        <RoundedButton innerText="PLAY"
+          onPress={ () => Actions.player({ songIndex: 0, songs: this.props.repetition.tracks,  repetition: this.props.repetition }) } />
       </View>
     );
   }
@@ -141,20 +137,6 @@ const styles = StyleSheet.create({
   avatar: {
     marginBottom: 12,
     borderRadius: AVATAR_SIZE / 2
-  },
-  playButton: {
-    marginTop: 15,
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 70,
-    paddingRight: 70,
-    backgroundColor: "#f62976",
-    borderRadius: 200,
-  },
-  playButtonText: {
-    color: "#FFF",
-    fontFamily: "Helvetica Neue",
-    fontSize: 13,
   },
   songsList: {
     flex: 1,
