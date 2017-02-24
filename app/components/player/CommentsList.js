@@ -30,7 +30,7 @@ class CommentsList extends Component {
   render() {
     return (
         <RealmListView
-          collection={this.state.song.comments}
+          collection={this.state.song.comments.sorted(['second', 'date'])}
           renderRow={ ( comment ) => <CommentItem comment={ comment } {...this.props} /> }/>
     );
   }
