@@ -15,6 +15,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Slider from 'react-native-slider';
 import Video from 'react-native-video';
 import BackButton from '../general/BackButton';
+import CommentsList from './CommentsList';
 
 
 const window = Dimensions.get('window');
@@ -170,7 +171,7 @@ class Player extends Component {
           { forwardButton }
         </View>
         <Icon style={styles.headerComment} name="ios-chatbubbles-outline" size={25} color="#fff" onPress = { this.onTapCompose.bind(this) }/>
-       
+        <CommentsList song={songPlaying} />
       </View>
     );
   }
