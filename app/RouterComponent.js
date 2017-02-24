@@ -7,6 +7,7 @@ import {
   Navigator,
   StyleSheet,
   Text,
+  StatusBar,
   View
 } from 'react-native';
 import {Router, Schema, Scene} from 'react-native-router-flux';
@@ -32,5 +33,6 @@ const styles = StyleSheet.create({
   }
 });
 
+StatusBar.setBarStyle('light-content', true);
 module.exports = RouterComponent;
 

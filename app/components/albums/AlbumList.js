@@ -1,4 +1,4 @@
-'use strict';
+  'use strict';
 import React, {
   Component,
 } from 'react';
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
+    paddingTop: 10,
     color: '#fff',
   },
   instructions: {
