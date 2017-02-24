@@ -106,6 +106,11 @@ class Player extends Component {
     this.setState({ playing: false });
   }
 
+  onSelectComment(comment) {
+    this.refs.audio.seek( comment.second );
+    this.setState({playing: true});
+  }
+
   render() {
     let songPlaying = this.props.songs[this.state.songIndex];
     let songPercentage;
@@ -171,7 +176,7 @@ class Player extends Component {
           { forwardButton }
         </View>
         <Icon style={styles.headerComment} name="ios-chatbubbles-outline" size={25} color="#fff" onPress = { this.onTapCompose.bind(this) }/>
-        <CommentsList song={songPlaying} />
+        <CommentsList song={songPlaying} onSelectComment={this.onSelectComment.bind(this)}/>
       </View>
     );
   }

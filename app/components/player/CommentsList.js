@@ -32,7 +32,7 @@ class CommentsList extends Component {
     return (
         <RealmListView
           collection={this.state.song.comments}
-          renderRow={ ( comment ) => <CommentItem comment={ comment } /> }/>
+          renderRow={ ( comment ) => <CommentItem comment={ comment } onSelectComment={this.onSelectComment.bind(this)} /> }/>
     );
   }
 
@@ -41,7 +41,7 @@ class CommentsList extends Component {
 class CommentItem extends Component {
   render() {
     return (
-      <TouchableHighlight onPress={ () => this.onSelectComment() } activeOpacity={ 100 } underlayColor="#ea4b54">
+      <TouchableHighlight onPress={ () => this.props.onSelectComment(this.props.comment) } activeOpacity={ 100 } underlayColor="#ea4b54">
         <View style={ styles.horizontalContainer }>
           <View style={{flex: 0.2}}>
             <Text style={ styles.authorName }>{ this.props.comment.author }
