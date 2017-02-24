@@ -50,12 +50,12 @@ class CommentItem extends Component {
         onLongPress={ () => this.props.onLongSelectComment(this.props.comment)}
         activeOpacity={ 100 } underlayColor="#ea4b54">
         <View style={ styles.horizontalContainer }>
-          <View style={{flex: 0.2}}>
+          <View>
             <Text style={ styles.authorName }>{ this.props.comment.author }
               <Text style={ styles.time }>{'\n'}{ formattedTime(this.props.comment.second) }</Text>
             </Text>
           </View>
-          <View style={{flexGrow: 1, flex: 0.8}}>
+          <View style={{flexShrink: 1}}>
             <Text style={ styles.comment } >{ this.props.comment.text }</Text>
           </View>
         </View>
