@@ -17,9 +17,13 @@ import AlbumItem from './AlbumItem';
 class AlbumList extends Component {
   constructor(props){
     super(props);
-    let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => true });
+    let reps = model.repetitions;
+    reps.addListener((rows, changes) => {
+      this.setState({dataSource: ds.cloneWithRows(reps)});
+    });
     this.state = {
-      dataSource: ds.cloneWithRows( model.repetitions ),
+      dataSource: ds.cloneWithRows( reps ),
     }
   }
 
