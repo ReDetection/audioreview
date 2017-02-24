@@ -26,6 +26,10 @@ class ComposeComment extends Component {
     this.state = {text: props.initialText || ''};
   }
 
+  componentDidMount() {
+    this.refs.commentInput.focus();
+  }
+
   sendComment() {
     model.createComment(this.state.text, this.props.song, this.props.second, "author");
     Actions.pop();
@@ -43,7 +47,7 @@ class ComposeComment extends Component {
         <View style={ styles.headerSend }>
           <Icon onPress={ this.sendComment.bind(this) } name="ios-checkmark" size={30} color="#fff" />
         </View>
-        <TextInput style={styles.input} autoCorrect={false} numberOfLines={8} placeholder="Enter comment" multiline={true} onChangeText={(text) => this.setState({text: text})} editable={true} value={this.state.text}/>
+        <TextInput ref='commentInput' style={styles.input} autoCorrect={false} numberOfLines={8} placeholder="Enter comment" multiline={true} onChangeText={(text) => this.setState({text: text})} editable={true} value={this.state.text}/>
       </View>
     );
   }
