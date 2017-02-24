@@ -43,9 +43,14 @@ class CommentItem extends Component {
     return (
       <TouchableHighlight onPress={ () => this.onSelectComment() } activeOpacity={ 100 } underlayColor="#ea4b54">
         <View style={ styles.horizontalContainer }>
+          <View style={{flex: 0.2}}>
             <Text style={ styles.authorName }>{ this.props.comment.author }
-            <Text style={ styles.time }>{'\n'}{ formattedTime(this.props.comment.second) }</Text></Text>
-          <Text style={ styles.comment } >{ this.props.comment.text }</Text>
+              <Text style={ styles.time }>{'\n'}{ formattedTime(this.props.comment.second) }</Text>
+            </Text>
+          </View>
+          <View style={{flexGrow: 1, flex: 0.8}}>
+            <Text style={ styles.comment } >{ this.props.comment.text }</Text>
+          </View>
         </View>
       </TouchableHighlight>
     );
@@ -60,16 +65,13 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     flexDirection: 'row',
+    marginLeft: 4,
     width: window.width,
   }, 
-  verticalContainer: {
-    flex: 1,
-  },
   authorName: {
     color: "#FFF",
     backgroundColor: 'transparent',
     fontFamily: "Helvetica Neue",
-    fontWeight: "500",
     fontSize: 14,
     marginBottom: 5,
     paddingRight: 5,
@@ -78,7 +80,6 @@ const styles = StyleSheet.create({
     color: "gray",
     backgroundColor: 'transparent',
     fontFamily: "Helvetica Neue",
-    fontWeight: "500",
     fontSize: 14,
     marginBottom: 5,
     paddingRight: 5,
@@ -88,12 +89,10 @@ const styles = StyleSheet.create({
     color: "#CCC",
     backgroundColor: 'transparent',
     fontFamily: "Helvetica Neue",
-    fontWeight: "300",
     fontSize: 14,
     textAlign: 'left',
-    paddingRight: 2,
-    marginRight: 3,
     paddingLeft: 2,
+    flexWrap: 'wrap',
   },
 });
 
