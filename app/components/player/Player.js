@@ -111,6 +111,11 @@ class Player extends Component {
     this.setState({playing: true});
   }
 
+  onLongSelectComment(comment) {
+    let songPlaying = this.props.songs[this.state.songIndex];
+    Actions.compose({song: songPlaying, second: comment.second, initialText: "@"+comment.author+": "});
+  }
+
   render() {
     let songPlaying = this.props.songs[this.state.songIndex];
     let songPercentage;
@@ -176,7 +181,7 @@ class Player extends Component {
           { forwardButton }
         </View>
         <Icon style={styles.headerComment} name="ios-chatbubbles-outline" size={25} color="#fff" onPress = { this.onTapCompose.bind(this) }/>
-        <CommentsList song={songPlaying} onSelectComment={this.onSelectComment.bind(this)}/>
+        <CommentsList song={songPlaying} onSelectComment={this.onSelectComment.bind(this)} onLongSelectComment={this.onLongSelectComment.bind(this)}/>
       </View>
     );
   }
