@@ -10,7 +10,6 @@ import {
 import RealmListView from '../general/RealmListView';
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
-import { model } from '../../Model';
 import AlbumItem from './AlbumItem';
 
 
@@ -22,7 +21,7 @@ class AlbumList extends Component {
         <Text style={styles.welcome}>
           Albums
         </Text>
-        <RealmListView collection={model.repetitions}
+        <RealmListView collection={this.props.model.repetitions}
           renderRow={ ( album ) => <AlbumItem repetition={ album } /> }/>
       </View>
     );

@@ -15,7 +15,6 @@ import {
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { model } from '../../Model';
 import RealmListView from '../general/RealmListView';
 
 const window = Dimensions.get('window');

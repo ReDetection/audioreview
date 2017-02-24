@@ -14,7 +14,6 @@ import {
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { model } from '../../Model';
 import BackButton from '../general/BackButton';
 
 const window = Dimensions.get('window');
@@ -31,7 +30,7 @@ class ComposeComment extends Component {
   }
 
   sendComment() {
-    model.createComment(this.state.text, this.props.song, this.props.second, "author");
+    this.props.model.createComment(this.state.text, this.props.song, this.props.second, "author");
     Actions.pop();
   }
 
