@@ -143,18 +143,12 @@ class Player extends Component {
 
         <View style={ styles.header }>
           <Text style={ styles.headerText }>
-            { this.props.repetition.title }
+            { songPlaying.title }
           </Text>
         </View>
         <View style={ styles.headerClose }>
           <Icon onPress={ Actions.pop } name="ios-arrow-back" size={15} color="#fff" />
         </View>
-        <Text style={ styles.songTitle }>
-          { songPlaying.title }
-        </Text>
-        <Text style={ styles.albumTitle }>
-          { songPlaying.album }
-        </Text>
         <View style={ styles.sliderContainer }>
           <Slider
             onSlidingStart={ this.onSlidingStart.bind(this) }
@@ -222,25 +216,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
   },
-  songImage: {
-    marginBottom: 20,
-  },
-  songTitle: {
-    color: "white",
-    fontFamily: "Helvetica Neue",
-    marginBottom: 10,
-    marginTop: 13,
-    fontSize: 19
-  },
-  albumTitle: {
-    color: "#BBB",
-    fontFamily: "Helvetica Neue",
-    fontSize: 14,
-    marginBottom: 20,
-  },
   controls: {
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: 15,
   },
   back: {
     marginTop: 22,
@@ -295,13 +273,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
   }
 });
-
-const MIN_COMPOSER_HEIGHT = Platform.select({
-  ios: 33,
-  android: 41,
-});
-const MAX_COMPOSER_HEIGHT = 100;
-const MIN_INPUT_TOOLBAR_HEIGHT = 44;
 
 //TODO: Move this to a Utils file
 function withLeadingZero(amount){
