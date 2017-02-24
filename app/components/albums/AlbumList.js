@@ -7,7 +7,7 @@ import {
   Text,
   View
 } from 'react-native';
-import { ListView } from 'realm/react-native';
+import RealmListView from '../general/RealmListView';
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 import { model } from '../../Model';
@@ -15,17 +15,6 @@ import AlbumItem from './AlbumItem';
 
 
 class AlbumList extends Component {
-  constructor(props){
-    super(props);
-    let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => true });
-    let reps = model.repetitions;
-    reps.addListener((rows, changes) => {
-      this.setState({dataSource: ds.cloneWithRows(reps)});
-    });
-    this.state = {
-      dataSource: ds.cloneWithRows( reps ),
-    }
-  }
 
   render() {
     return (
@@ -33,8 +22,7 @@ class AlbumList extends Component {
         <Text style={styles.welcome}>
           Albums
         </Text>
-        <ListView
-          dataSource={this.state.dataSource}
+        <RealmListView collection={model.repetitions}
           renderRow={ ( album ) => <AlbumItem repetition={ album } /> }/>
       </View>
     );

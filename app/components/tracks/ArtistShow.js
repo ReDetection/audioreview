@@ -11,7 +11,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { ListView } from 'realm/react-native';
+import RealmListView from '../general/RealmListView';
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
@@ -68,10 +68,9 @@ class ArtistShow extends Component {
   }
 
   renderSongsList() {
-    let songsDataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }).cloneWithRows( this.props.repetition.tracks );
     return(
-      <ListView
-        dataSource={ songsDataSource }
+      <RealmListView
+        collection={ this.props.repetition.tracks }
         style={ styles.songsList }
         renderRow={(song, sectionId, rowId) => (
           <TouchableHighlight onPress={ () => Actions.player({ songIndex: parseInt( rowId ), songs: this.props.repetition.tracks, repetition: this.props.repetition }) } activeOpacity={ 100 } underlayColor="rgba(246, 41, 118, 0.6)">
