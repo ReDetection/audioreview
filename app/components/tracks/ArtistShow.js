@@ -16,6 +16,7 @@ import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import Icon from 'react-native-vector-icons/Ionicons';
+import BackButton from '../general/BackButton';
 
 const window = Dimensions.get('window');
 const PARALLAX_HEADER_HEIGHT = 280;
@@ -101,9 +102,7 @@ class ArtistShow extends Component {
           renderBackground={ this.renderBackground.bind(this) }>
           { this.renderSongsList() }
         </ParallaxScrollView>
-        <View style={ styles.headerClose }>
-          <Icon onPress={ Actions.pop } name="ios-arrow-back" size={15} color="#fff" />
-        </View>
+        <BackButton />
       </View>
     );
   }
@@ -119,15 +118,6 @@ const styles = StyleSheet.create({
     width: window.width,
     backgroundColor: 'rgba(0,0,0,.8)',
     height: PARALLAX_HEADER_HEIGHT
-  },
-  headerClose: {
-    position: 'absolute',
-    top: 20,
-    left: 0,
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
   },
   stickySection: {
     height: STICKY_HEADER_HEIGHT,

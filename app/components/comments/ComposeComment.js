@@ -15,6 +15,7 @@ import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { model } from '../../Model';
+import BackButton from '../general/BackButton';
 
 const window = Dimensions.get('window');
 
@@ -38,9 +39,7 @@ class ComposeComment extends Component {
             Comment at { formattedTime(this.props.second) }
           </Text>
         </View>
-        <View style={ styles.headerClose }>
-          <Icon onPress={ Actions.pop } name="ios-arrow-back" size={15} color="#fff" />
-        </View>
+        <BackButton />
         <View style={ styles.headerSend }>
           <Icon onPress={ this.sendComment.bind(this) } name="ios-checkmark" size={30} color="#fff" />
         </View>
@@ -70,15 +69,6 @@ const styles = StyleSheet.create({
     marginTop: 17,
     marginBottom: 17,
     width: window.width,
-  },
-  headerClose: {
-    position: 'absolute',
-    top: 20,
-    left: 0,
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
   },
   headerSend: {
     position: 'absolute',
