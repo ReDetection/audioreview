@@ -110,9 +110,9 @@ class Model {
         return this.realm.objects('Repetition');
     }
 
-    createComment(text, song, second, author) {
+    createComment(text, song, second) {
         this.realm.write(()=>{
-          song.comments.push({text: text, author: author, second: second, date: new Date()});
+          song.comments.push({text: text, author: this.nickname, second: second, date: new Date()});
         });
     }
 

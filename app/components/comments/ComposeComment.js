@@ -30,7 +30,7 @@ class ComposeComment extends Component {
   }
 
   sendComment() {
-    this.props.model.createComment(this.state.text, this.props.song, this.props.second, "author");
+    this.props.model.createComment(this.state.text, this.props.song, this.props.second);
     Actions.pop();
   }
 
