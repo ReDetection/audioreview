@@ -30,9 +30,27 @@ const CommentSchema = {
 
 
 class Model {
+    constructor(realmURL) {
+      this.realmURL = realmURL;
+      let user = Realm.Sync.User.current;
+      if (user) {
+        this.connectWithUser(user);
+      }
+    }
 
-    constructor(realm) {
-        this.realm = realm;
+    connectWithUser(user) {
+      this.realm = new Realm({
+        sync: {
+          user: user,
+          url: this.realmURL,
+        },
+        schema: [RepetitionSchema, TrackSchema, CommentSchema],
+        schemaVersion: 1,
+      })
+    }
+
+    get databaseRunning() {
+      return this.realm != undefined
     }
 
     get repetitions() {
@@ -48,7 +66,4 @@ class Model {
 };
 
 
-module.exports = { model: new Model(new Realm({
-    schema: [RepetitionSchema, TrackSchema, CommentSchema],
-    schemaVersion: 1,
-})) };
+module.exports = Model;
