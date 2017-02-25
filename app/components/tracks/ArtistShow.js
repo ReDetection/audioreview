@@ -106,6 +106,8 @@ class ArtistShow extends Component {
 const styles = StyleSheet.create({
   background: {
     backgroundColor: "#000",
+    width: window.width,
+    height: window.height,
   },
   backgroundOverlay: {
     position: 'absolute',
