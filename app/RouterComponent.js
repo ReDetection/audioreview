@@ -10,7 +10,7 @@ import {
   StatusBar,
   View
 } from 'react-native';
-import {Router, Schema, Scene} from 'react-native-router-flux';
+import {Router, Schema, Scene, ActionConst} from 'react-native-router-flux';
 import Login from './components/login/Login';
 import AlbumList from './components/albums/AlbumList';
 import ArtistShow from './components/tracks/ArtistShow';
@@ -25,8 +25,8 @@ let model = new Model(modelURL);
 class RouterComponent extends Component {
   render() {
     return <Router style={ styles.container } hideNavBar={true}>
-        <Scene key="login" component={Login} model={model} authURL={authURL} />
-        <Scene key="root" component={AlbumList} title="Albums" model={model} initial={model.databaseRunning}/>
+        <Scene key="login" component={Login} model={model} authURL={authURL} type={ActionConst.REPLACE}/>
+        <Scene key="root" component={AlbumList} title="Albums" model={model} initial={model.databaseRunning} type={ActionConst.REPLACE}/>
         <Scene key="albumShow" component={ArtistShow} title="The Beatles"/>
         <Scene key="player" hideNavBar={true} component={Player} title="Come Together"/>
         <Scene key="compose" component={ComposeComment} model={model}/>

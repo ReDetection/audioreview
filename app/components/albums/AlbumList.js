@@ -15,12 +15,20 @@ import AlbumItem from './AlbumItem';
 
 class AlbumList extends Component {
 
+  doLogout() {
+    this.props.model.logout();
+    Actions.login({});
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
           Albums
         </Text>
+        <View style={ styles.headerClose }>
+          <Text onPress={ this.doLogout.bind(this) } size={14} style={{color: "#fff"}}>Logout</Text>
+        </View>
         <RealmListView collection={this.props.model.repetitions}
           renderRow={ ( album ) => <AlbumItem repetition={ album } /> }/>
       </View>
@@ -41,6 +49,15 @@ const styles = StyleSheet.create({
     margin: 10,
     paddingTop: 10,
     color: '#fff',
+  },
+  headerClose: {
+    position: 'absolute',
+    top: 16,
+    left: 0,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 10,
+    paddingRight: 20,
   },
   instructions: {
     textAlign: 'center',

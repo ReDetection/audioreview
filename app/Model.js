@@ -49,6 +49,11 @@ class Model {
       })
     }
 
+    logout() {
+      this.realm = undefined;
+      Realm.Sync.User.current.logout();
+    }
+
     get databaseRunning() {
       return this.realm != undefined
     }
