@@ -20,7 +20,7 @@ class Login extends Component {
     let password = this.refs.password._lastNativeText;
     Realm.Sync.User.register(this.props.authURL, username, password, (error, user) => { 
       if (user) {
-        this.connectUser(user);
+        this.connectUser(username, user);
       } else if (error) {
         this.refs.error.value=error;
       }
@@ -32,15 +32,18 @@ class Login extends Component {
     let password = this.refs.password._lastNativeText;
     Realm.Sync.User.login(this.props.authURL, username, password, (error, user) => { 
       if (user) {
-        this.connectUser(user);
+        this.connectUser(username, user);
       } else if (error) {
         this.refs.error.value=error;
       }
     });
   }
 
-  connectUser(user) {
+  connectUser(username, user) {
     this.props.model.connectWithUser(user);
+    if (this.props.model.nickname == undefined) {
+      this.props.model.registerNickname(username);
+    }
     Actions.root();
   }
 
