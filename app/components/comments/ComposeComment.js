@@ -44,7 +44,7 @@ class ComposeComment extends Component {
         </View>
         <BackButton />
         <View style={ styles.headerSend }>
-          <Icon onPress={ this.sendComment.bind(this) } name="ios-checkmark" size={30} color="#fff" />
+          <Icon style={ styles.headerSendButton } onPress={ this.sendComment.bind(this) } name="ios-checkmark" size={30} color="#fff" />
         </View>
         <TextInput ref='commentInput' style={styles.input} autoCorrect={false} numberOfLines={8} placeholder="Enter comment" multiline={true} onChangeText={(text) => this.setState({text: text})} editable={true} value={this.state.text}/>
       </View>
@@ -77,6 +77,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 12,
     right: 0,
+  },
+  headerSendButton: {
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 20,

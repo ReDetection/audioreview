@@ -13,7 +13,7 @@ class BackButton extends Component {
   render() {
     return (
       <View style={ styles.headerClose }>
-        <Icon onPress={ Actions.pop } name="ios-arrow-back" size={15} color="#fff" {...this.props} />
+        <Icon style={styles.button} onPress={ Actions.pop } name="ios-arrow-back" size={15} color="#fff" {...this.props} />
       </View>
     );
   }
@@ -24,6 +24,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20,
     left: 0,
+  },
+  button: {
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 20,
