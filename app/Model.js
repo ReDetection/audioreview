@@ -107,7 +107,7 @@ class Model {
     }
 
     get repetitions() {
-        return this.realm.objects('Repetition');
+        return this.realm.objects('Repetition').sorted('date', true);
     }
 
     createComment(text, song, second) {
