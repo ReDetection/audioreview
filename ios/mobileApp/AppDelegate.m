@@ -7,6 +7,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
+#import <AVFoundation/AVFoundation.h>
 #import "AppDelegate.h"
 
 #import "RCTBundleURLProvider.h"
@@ -18,6 +19,7 @@
 {
   NSURL *jsCodeLocation;
 
+  [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
