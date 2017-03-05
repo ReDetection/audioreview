@@ -97,7 +97,11 @@ class Player extends Component {
   }
 
   onEnd(){
+    if( !this.state.shuffle && this.state.songIndex + 1 === this.props.songs.length ) {
     this.setState({ playing: false });
+    } else {
+      this.goForward();
+    }
   }
 
   onTapCompose() {
