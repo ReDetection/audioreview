@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20,
     left: 0,
+    backgroundColor: 'transparent',
   },
   button: {
     paddingTop: 10,
