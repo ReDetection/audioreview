@@ -7,13 +7,33 @@ import { ListView } from 'realm/react-native';
 class RealmListView extends Component {
   constructor(props){
     super(props);
-    let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => true });
-    let collection = props.collection;
-    collection.addListener((rows, changes) => {
-      this.setState({dataSource: ds.cloneWithRows(rows)});
-    });
     this.state = {
-      dataSource: ds.cloneWithRows(collection),
+      dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => true }),
+      collection: props.collection,
+    };
+    this.listener = (rows, changes) => {
+      this.setState({dataSource: this.state.dataSource.cloneWithRows(rows)});
+    };
+  }
+
+  componentWillMount() {
+    this.applyCollection(this.props.collection);
+  }
+
+  applyCollection(collection) {
+    if (this.state.collection != undefined) {
+      this.state.collection.removeListener(this.listener);
+    }
+    collection.addListener(this.listener);
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(collection),
+      collection: collection,
+    });
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (this.props.collection !== newProps.collection) {
+      this.applyCollection(newProps.collection);
     }
   }
 

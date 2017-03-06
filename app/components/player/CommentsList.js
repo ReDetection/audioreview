@@ -26,6 +26,12 @@ class CommentsList extends Component {
     this.state = {song: props.song};
   }
 
+  componentWillReceiveProps(newProps) {
+    if (this.props.song !== newProps.song) {
+      this.setState({song: newProps.song});
+    }
+  }
+
   render() {
     return (
         <RealmListView
