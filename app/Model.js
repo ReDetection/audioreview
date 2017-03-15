@@ -102,6 +102,18 @@ class Model {
       });
     }
 
+    findTrackWithComment(comment) {
+      return this.realm.objects('Track').filtered('comments.text == $0', comment.text)[0]; //fixme when objects query or backlinks will be supported
+    }
+
+    get comments() {
+      return this.realm.objects('Comment').sorted('date', true);
+    }
+
+    get mentions() {
+      return this.realm.objects('Comment').filtered('text CONTAINS $0', '@' + this.nickname).sorted('date', true);
+    }
+
     get databaseRunning() {
       return this.realm != undefined
     }

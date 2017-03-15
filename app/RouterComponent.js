@@ -13,6 +13,7 @@ import {
 import {Router, Schema, Scene, ActionConst} from 'react-native-router-flux';
 import Login from './components/login/Login';
 import AlbumList from './components/albums/AlbumList';
+import Mentions from './components/mentions/Mentions';
 import ArtistShow from './components/tracks/ArtistShow';
 import Player from './components/player/Player';
 import ComposeComment from './components/comments/ComposeComment';
@@ -28,6 +29,7 @@ class RouterComponent extends Component {
     return <Router style={ styles.container } hideNavBar={true}>
         <Scene key="login" component={Login} model={model} authURL={authURL} type={ActionConst.REPLACE}/>
         <Scene key="root" component={AlbumList} title="Albums" model={model} initial={model.databaseRunning} type={ActionConst.REPLACE}/>
+        <Scene key="mentions" component={Mentions} model={model} title="Mentions"/>
         <Scene key="albumShow" component={ArtistShow} title="The Beatles" cache={cache}/>
         <Scene key="player" hideNavBar={true} component={Player} title="Come Together" cache={cache}/>
         <Scene key="compose" component={ComposeComment} model={model}/>
