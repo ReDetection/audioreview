@@ -64,19 +64,28 @@ class ArtistShow extends Component {
   }
 
   renderSongsList() {
+    let optionalCommentCounter = (song) => song.comments.length > 0 ? (
+      <View style={{paddingRight: 10, paddingTop: 11, flexDirection: "row"}}>
+        <Icon style={{ paddingRight: 5, paddingTop: -2 }} name="ios-chatbubbles-outline" size={25} color="#fff"/>
+        <Text style={ styles.songTitle }>{ song.comments.length }</Text>
+      </View>
+    ) : null;
     return(
       <RealmListView
         collection={ this.props.repetition.tracks }
         style={ styles.songsList }
         renderRow={(song, sectionId, rowId) => (
           <TouchableHighlight onPress={ () => Actions.player({ songIndex: parseInt( rowId ), songs: this.props.repetition.tracks, repetition: this.props.repetition }) } activeOpacity={ 100 } underlayColor="rgba(246, 41, 118, 0.6)">
-            <View key={song} style={ styles.song }>
-              <Text style={ styles.songTitle }>
-                { song.title }
-              </Text>
-              <Text style={ styles.albumTitle }>
-                { song.album }
-              </Text>
+            <View style={styles.horizontalContainer}>
+              <View key={song} style={ styles.song }>
+                <Text style={ styles.songTitle }>
+                  { song.title }
+                </Text>
+                <Text style={ styles.albumTitle }>
+                  { song.album }
+                </Text>
+              </View>
+              { optionalCommentCounter(song) }
             </View>
           </TouchableHighlight>
           )}/>
@@ -109,6 +118,9 @@ const styles = StyleSheet.create({
     width: window.width,
     height: window.height,
   },
+  horizontalContainer: {
+    flexDirection: 'row',
+  }, 
   backgroundOverlay: {
     position: 'absolute',
     top: 0,
@@ -153,11 +165,12 @@ const styles = StyleSheet.create({
     marginRight: 20,
     borderBottomWidth: 1,
     borderBottomColor: "#111",
-
+    flexGrow: 1,
   },
   songTitle: {
     color: "white",
     fontFamily: "Helvetica Neue",
+    marginTop: 2,
     marginBottom: 5,
   },
   albumTitle: {
