@@ -21,7 +21,7 @@ import RoundedButton from '../general/RoundedButton';
 
 const window = Dimensions.get('window');
 const PARALLAX_HEADER_HEIGHT = 280;
-const STICKY_HEADER_HEIGHT = 50;
+const STICKY_HEADER_HEIGHT = 54;
 const AVATAR_SIZE = 120;
 
 class ArtistShow extends Component {
@@ -139,7 +139,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   stickySectionTitle: {
-    paddingTop: 10,
+    paddingTop: 20,
+    fontSize: 18,
     color: "#FFF",
   },
   parallaxHeader: {
