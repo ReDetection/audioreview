@@ -30,7 +30,7 @@ class ArtistShow extends Component {
   renderStickyHeader() {
     return(
       <View style={ styles.stickySection }>
-        <Text style={ styles.stickySectionTitle }>{ this.props.repetition.name }</Text>
+        <Text style={ styles.stickySectionTitle }>{ this.props.repetition.title }</Text>
       </View>
     );
   }
@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   stickySectionTitle: {
+    paddingTop: 10,
     color: "#FFF",
   },
   parallaxHeader: {
