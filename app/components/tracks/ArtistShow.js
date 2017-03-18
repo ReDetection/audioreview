@@ -120,6 +120,9 @@ const styles = StyleSheet.create({
   },
   horizontalContainer: {
     flexDirection: 'row',
+    marginLeft: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "#111",
   }, 
   backgroundOverlay: {
     position: 'absolute',
@@ -162,10 +165,7 @@ const styles = StyleSheet.create({
   song: {
     paddingTop: 10,
     paddingBottom: 10,
-    marginLeft: 20,
     marginRight: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: "#111",
     flexGrow: 1,
   },
   songTitle: {
