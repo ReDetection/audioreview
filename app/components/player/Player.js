@@ -227,16 +227,16 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   back: {
-    marginTop: 22,
-    marginLeft: 45,
+    padding: 22,
+    marginLeft: 23,
   },
   play: {
-    marginLeft: 50,
-    marginRight: 50,
+    marginLeft: 28,
+    marginRight: 28,
   },
   forward: {
-    marginTop: 22,
-    marginRight: 45,
+    padding: 22,
+    marginRight: 23,
   },
   shuffle: {
     marginTop: 26,
