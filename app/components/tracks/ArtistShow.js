@@ -18,6 +18,7 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BackButton from '../general/BackButton';
 import RoundedButton from '../general/RoundedButton';
+var Promise = require('promise');
 
 const window = Dimensions.get('window');
 const PARALLAX_HEADER_HEIGHT = 280;
@@ -26,6 +27,47 @@ const AVATAR_SIZE = 120;
 
 class ArtistShow extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {indexedSong: props.song};
+    this.indexTracks();
+  }
+
+  indexTracks() {
+    let songBeingIndexed = this.state.song;
+    let existPromises = songBeingIndexed.tracks.map((track)=>{ return this.props.cache.hasLocalCacheForURL(track.trackURL); })
+    this.setState({indexing: true});
+    Promise.all(existPromises)
+      .done((results)=>{
+        if (this.state.song !== songBeingIndexed) {
+          return;
+        }
+        let result = results.reduce((acc, i)=>{ return acc && i }, true);
+        this.setState({downloaded: result, indexing: false});
+      })
+  }
+
+  tracksToDownload() {
+    return this.props.repetition.tracks.filter((track)=>{ return this.props.cache.hasLocalCacheForURL(track.trackURL); });
+  }
+
+  download() {
+    this.setState({downloading: true});
+
+  }
+
+  renderDownloadButton() {
+    if (this.state.downloading == true) {
+      return (<Text>...</Text>);
+    }
+    if (this.state.indexing == true) {
+
+    }
+    if (this.tracksToDownload.length > 0) {
+      return (<Icon onPress={ this.download.bind(this) } name="ios-cloud-download-outline" size={25} color="#fff"/>);
+    }
+    return (<Icon name="ios-cloud-done-outline" size={25} color="#fff"/>);
+  }
 
   renderStickyHeader() {
     return(

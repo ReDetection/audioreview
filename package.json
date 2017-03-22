@@ -6,6 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
+    "promise": "^7.1.1",
     "react": "^15.3.1",
     "react-native": "^0.36.0",
     "react-native-button": "^1.4.2",
@@ -15,6 +16,7 @@
     "react-native-slider": "^0.9.1",
     "react-native-vector-icons": "^3.0.0",
     "react-native-video": "^0.9.0",
-    "realm": "^1.0.2"
+    "realm": "^1.0.2",
+    "url": "^0.11.0"
   }
 }
