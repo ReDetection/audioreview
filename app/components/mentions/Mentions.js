@@ -28,7 +28,11 @@ class Mentions extends Component {
   render() {
     return (
       <View style={styles.background}>
-        <View style={ styles.header } />
+        <View style={ styles.header }>
+          <Text style={ styles.headerText }>
+            { this.props.title }
+          </Text>
+        </View>
         <BackButton />
         <RealmListView
           collection={this.props.collection}
@@ -80,8 +84,14 @@ const styles = StyleSheet.create({
   header: {
     paddingTop: 10,
     marginTop: 17,
-    marginBottom: 25,
+    marginBottom: 10,
     flexDirection: 'row',
+  },
+  headerText: {
+    color: "#FFF",
+    fontSize: 18,
+    textAlign: 'center',
+    flexGrow: 1,
   },
   authorName: {
     color: "#FFF",

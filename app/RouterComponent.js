@@ -29,7 +29,7 @@ class RouterComponent extends Component {
     return <Router style={ styles.container } hideNavBar={true}>
         <Scene key="login" component={Login} model={model} authURL={authURL} type={ActionConst.REPLACE}/>
         <Scene key="root" component={AlbumList} title="Albums" model={model} initial={model.databaseRunning} type={ActionConst.REPLACE}/>
-        <Scene key="mentions" component={Mentions} model={model} title="Mentions"/>
+        <Scene key="mentions" component={Mentions} model={model}/>
         <Scene key="albumShow" component={ArtistShow} title="The Beatles" cache={cache}/>
         <Scene key="player" hideNavBar={true} component={Player} title="Come Together" cache={cache}/>
         <Scene key="compose" component={ComposeComment} model={model}/>

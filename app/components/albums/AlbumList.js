@@ -30,8 +30,8 @@ class AlbumList extends Component {
           <Text onPress={ this.doLogout.bind(this) } size={14} style={{color: "#fff"}}>Logout</Text>
         </View>
         <View style={ styles.headerRight }>
-          <Text onPress={ () => { Actions.mentions({collection: this.props.model.mentions }) }} 
-            onLongPress={ () => { Actions.mentions({collection: this.props.model.comments }) }}
+          <Text onPress={ () => { Actions.mentions({collection: this.props.model.mentions, title: "Mentions" }) }} 
+            onLongPress={ () => { Actions.mentions({collection: this.props.model.comments, title: "Comments Feed" }) }}
             size={14} style={{color: "#fff"}}>
               Mentions
           </Text>
