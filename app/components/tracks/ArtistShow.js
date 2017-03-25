@@ -26,6 +26,57 @@ const AVATAR_SIZE = 120;
 
 class ArtistShow extends Component {
 
+  componentWillMount() {
+    this.indexTracks(this.props.repetition);
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (this.state.indexedRepetition != newProps.repetition) {
+      this.indexTracks(newProps.repetition);
+    }
+  }
+
+  indexTracks(repetitionBeingIndexed) {
+    this.setState({indexedRepetition: repetitionBeingIndexed, indexing: true});
+    let existPromises = repetitionBeingIndexed.tracks.map((track)=>{ return this.props.cache.hasLocalCacheForURL(track.trackURL); })
+    Promise.all(existPromises)
+      .done((results)=>{
+        if (this.state.indexedRepetition !== repetitionBeingIndexed) {
+          return;
+        }
+        let result = results.reduce((acc, i)=>{ return acc && i }, true);
+        this.setState({downloaded: result, indexing: false});
+      })
+  }
+
+  download() {
+    this.setState({downloading: true});
+    let urls = this.props.repetition.tracks.map((track)=>{ return track.trackURL; });
+    Promise.all(urls.map((url)=> { 
+      return this.props.cache
+        .hasLocalCacheForURL(url)
+        .then((has)=>{
+          return has ? Promise.resolve(null) : this.props.cache.downloadURL(url);
+        });
+    }))
+      .done((results)=>{
+        this.setState({downloading: false, indexing: true});
+        this.indexTracks(this.props.repetition);
+      });
+  }
+
+  renderDownloadButton() {
+    if (this.state.downloading === true) {
+      return (<Text style={{color: 'white'}}>wait</Text>);
+    }
+    if (this.state.indexing === true) {
+      return (<Text style={{color: 'white'}}>???</Text>);
+    }
+    if (this.state.downloaded === true) {
+      return (<Icon name="ios-cloud-done-outline" size={25} color="#fff"/>);
+    }
+    return (<Icon onPress={ this.download.bind(this) } name="ios-cloud-download-outline" size={25} color="#fff"/>);
+  }
 
   renderStickyHeader() {
     return(
@@ -43,9 +94,14 @@ class ArtistShow extends Component {
           width: AVATAR_SIZE,
           height: AVATAR_SIZE
         }}/>
-        <Text style={ styles.artistName }>
-          { this.props.repetition.title }
-        </Text>
+        <View style={styles.horizontalContainer}>
+          <Text style={ styles.artistName }>
+            { this.props.repetition.title }
+          </Text>
+          <View style={styles.icon}>
+            { this.renderDownloadButton() }
+          </View>
+        </View>
         <RoundedButton innerText="PLAY"
           onPress={ () => Actions.player({ songIndex: 0, songs: this.props.repetition.tracks,  repetition: this.props.repetition }) } />
       </View>
@@ -180,6 +236,9 @@ const styles = StyleSheet.create({
     fontFamily: "Helvetica Neue",
     fontSize: 12
   },
+  icon: {
+    marginLeft: 10,
+  }
 
 });
 

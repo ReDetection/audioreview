@@ -30,7 +30,34 @@ class Player extends Component {
       sliding: false,
       currentTime: 0,
       songIndex: props.songIndex,
+      urlToPlay: null,
+      downloaded: false,
     };
+  }
+
+  componentWillMount() {
+    this.lookupSongURLWithIndex(this.state.songIndex);
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (this.props.songIndex != newProps.songIndex || this.props.repetition !== newProps.repetition) {
+      console.log("player receiveed new props");
+      this.setState({
+        urlToPlay: null,
+        downloaded: false,
+      });
+    }
+  }
+
+  lookupSongURLWithIndex(songIndex) {
+    let songPlaying = this.props.songs[songIndex];
+    this.props.cache.hasLocalCacheForURL(songPlaying.trackURL)
+      .done((has)=>{
+        this.setState({
+          urlToPlay: has ? this.props.cache.localPathForURL(songPlaying.trackURL) : songPlaying.trackURL,
+          downloaded: has,
+        });
+      });
   }
 
   togglePlay(){
@@ -47,10 +74,14 @@ class Player extends Component {
 
   goBackward(){
     if(this.state.currentTime < 3 && this.state.songIndex !== 0 ){
+      let newIndex = this.state.songIndex - 1
       this.setState({
-        songIndex: this.state.songIndex - 1,
+        songIndex: newIndex,
         currentTime: 0,
+        urlToPlay: null,
+        downloaded: false,
       });
+      this.lookupSongURLWithIndex(newIndex);
     } else {
       this.refs.audio.seek(0);
       this.setState({
@@ -60,10 +91,14 @@ class Player extends Component {
   }
 
   goForward(){
+    let newIndex = this.state.songIndex + 1;
     this.setState({
-      songIndex: this.state.shuffle ? this.randomSongIndex() : this.state.songIndex + 1,
+      songIndex: newIndex,
       currentTime: 0,
+      urlToPlay: null,
+      downloaded: false,
     });
+    this.lookupSongURLWithIndex(newIndex);
     this.refs.audio.seek(0);
   }
 
@@ -143,25 +178,31 @@ class Player extends Component {
       forwardButton = <Icon onPress={ this.goForward.bind(this) } style={ styles.forward } name="ios-skip-forward" size={25} color="#fff" />;
     }
 
+    let player = null;
+    let downloadedIcon = this.state.downloaded ? <Icon name="ios-cloud-done-outline" size={25} color="#fff" style={{marginBottom: 0}} /> : null;
+    if (this.state.urlToPlay != undefined) {
+      player = <Video source={{uri: this.state.urlToPlay }}
+        ref="audio"
+        volume={ this.state.muted ? 0 : 1.0}
+        muted={false}
+        paused={!this.state.playing}
+        onLoad={ this.onLoad.bind(this) }
+        onProgress={ this.setTime.bind(this) }
+        playInBackground={true}
+        onEnd={ this.onEnd.bind(this) }
+        resizeMode="cover"
+        repeat={false}/>;
+    }
+
     let image = songPlaying.albumImage ? songPlaying.albumImage : this.props.image;
     return (
       <View style={styles.container}>
-        <Video source={{uri: songPlaying.trackURL }}
-            ref="audio"
-            volume={ this.state.muted ? 0 : 1.0}
-            muted={false}
-            paused={!this.state.playing}
-            onLoad={ this.onLoad.bind(this) }
-            onProgress={ this.setTime.bind(this) }
-            playInBackground={true}
-            onEnd={ this.onEnd.bind(this) }
-            resizeMode="cover"
-            repeat={false}/>
-
+        { player }
         <View style={ styles.header }>
           <Text style={ styles.headerText }>
             { songPlaying.title }
           </Text>
+          { downloadedIcon }
         </View>
         <BackButton />
         <View style={ styles.sliderContainer }>
@@ -202,7 +243,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     marginTop: 17,
     marginBottom: 17,
-    width: window.width,
+    flexDirection: 'row',
   },
   headerComment: {
     position: 'absolute',
@@ -221,6 +262,8 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontSize: 18,
     textAlign: 'center',
+    paddingLeft: 5,
+    paddingRight: 5,
   },
   controls: {
     flexDirection: 'row',
