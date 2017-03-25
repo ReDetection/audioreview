@@ -18,7 +18,6 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BackButton from '../general/BackButton';
 import RoundedButton from '../general/RoundedButton';
-var Promise = require('promise');
 
 const window = Dimensions.get('window');
 const PARALLAX_HEADER_HEIGHT = 280;
@@ -27,19 +26,22 @@ const AVATAR_SIZE = 120;
 
 class ArtistShow extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {indexedSong: props.song};
-    this.indexTracks();
+  componentWillMount() {
+    this.indexTracks(this.props.repetition);
   }
 
-  indexTracks() {
-    let songBeingIndexed = this.state.song;
-    let existPromises = songBeingIndexed.tracks.map((track)=>{ return this.props.cache.hasLocalCacheForURL(track.trackURL); })
-    this.setState({indexing: true});
+  componentWillReceiveProps(newProps) {
+    if (this.state.indexedRepetition != newProps.repetition) {
+      this.indexTracks(newProps.repetition);
+    }
+  }
+
+  indexTracks(repetitionBeingIndexed) {
+    this.setState({indexedRepetition: repetitionBeingIndexed, indexing: true});
+    let existPromises = repetitionBeingIndexed.tracks.map((track)=>{ return this.props.cache.hasLocalCacheForURL(track.trackURL); })
     Promise.all(existPromises)
       .done((results)=>{
-        if (this.state.song !== songBeingIndexed) {
+        if (this.state.indexedRepetition !== repetitionBeingIndexed) {
           return;
         }
         let result = results.reduce((acc, i)=>{ return acc && i }, true);
@@ -47,26 +49,33 @@ class ArtistShow extends Component {
       })
   }
 
-  tracksToDownload() {
-    return this.props.repetition.tracks.filter((track)=>{ return this.props.cache.hasLocalCacheForURL(track.trackURL); });
-  }
-
   download() {
     this.setState({downloading: true});
-
+    let urls = this.props.repetition.tracks.map((track)=>{ return track.trackURL; });
+    Promise.all(urls.map((url)=> { 
+      return this.props.cache
+        .hasLocalCacheForURL(url)
+        .then((has)=>{
+          return has ? Promise.resolve(null) : this.props.cache.downloadURL(url);
+        });
+    }))
+      .done((results)=>{
+        this.setState({downloading: false, indexing: true});
+        this.indexTracks(this.props.repetition);
+      });
   }
 
   renderDownloadButton() {
-    if (this.state.downloading == true) {
-      return (<Text>...</Text>);
+    if (this.state.downloading === true) {
+      return (<Text style={{color: 'white'}}>wait</Text>);
     }
-    if (this.state.indexing == true) {
-
+    if (this.state.indexing === true) {
+      return (<Text style={{color: 'white'}}>???</Text>);
     }
-    if (this.tracksToDownload.length > 0) {
-      return (<Icon onPress={ this.download.bind(this) } name="ios-cloud-download-outline" size={25} color="#fff"/>);
+    if (this.state.downloaded === true) {
+      return (<Icon name="ios-cloud-done-outline" size={25} color="#fff"/>);
     }
-    return (<Icon name="ios-cloud-done-outline" size={25} color="#fff"/>);
+    return (<Icon onPress={ this.download.bind(this) } name="ios-cloud-download-outline" size={25} color="#fff"/>);
   }
 
   renderStickyHeader() {
@@ -85,9 +94,14 @@ class ArtistShow extends Component {
           width: AVATAR_SIZE,
           height: AVATAR_SIZE
         }}/>
-        <Text style={ styles.artistName }>
-          { this.props.repetition.title }
-        </Text>
+        <View style={styles.horizontalContainer}>
+          <Text style={ styles.artistName }>
+            { this.props.repetition.title }
+          </Text>
+          <View style={styles.icon}>
+            { this.renderDownloadButton() }
+          </View>
+        </View>
         <RoundedButton innerText="PLAY"
           onPress={ () => Actions.player({ songIndex: 0, songs: this.props.repetition.tracks,  repetition: this.props.repetition }) } />
       </View>
@@ -222,6 +236,9 @@ const styles = StyleSheet.create({
     fontFamily: "Helvetica Neue",
     fontSize: 12
   },
+  icon: {
+    marginLeft: 10,
+  }
 
 });
 

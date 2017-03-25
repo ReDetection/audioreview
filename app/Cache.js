@@ -1,6 +1,6 @@
 'use strict';
 var RNFS = require('react-native-fs');
-var url = require("url");
+var parse = require("url-parse");
 
 
 class Cache {
@@ -10,7 +10,7 @@ class Cache {
     }
 
     localPathForURL(url) {
-        return RNFS.DocumentDirectoryPath + url.parse(url).pathname;
+        return RNFS.DocumentDirectoryPath + parse(url).pathname;
     }
 
     hasLocalCacheForURL(url) {
@@ -19,6 +19,20 @@ class Cache {
 
     hasFile(url) {
         return RNFS.exists(url);
+    }
+
+    downloadURL(url) {
+        let localpath = this.localPathForURL(url);
+        let localdir = localpath.substring(0, localpath.lastIndexOf("/"));
+        console.log(localpath);
+        return RNFS.mkdir(localdir, {NSURLIsExcludedFromBackupKey: true})
+            .then(()=>{
+                let job = RNFS.downloadFile({
+                    fromUrl: url,
+                    toFile: localpath,
+                });
+                return job.promise;
+            });
     }
 
 };
