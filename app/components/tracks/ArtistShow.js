@@ -3,7 +3,7 @@ import React, {
   Component,
 } from 'react';
 import {
-  AppRegistry,
+  Alert,
   Dimensions,
   StyleSheet,
   Image,
@@ -65,6 +65,26 @@ class ArtistShow extends Component {
       });
   }
 
+  deleteTracks() {
+    Alert.alert(
+      'Delete downloaded album',
+      'Are you sure?',
+      [
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: 'OK', onPress: () => {
+          let deletes = this.props.repetition.tracks.map((track)=>{return this.props.cache.remove(this.props.cache.localPathForURL(track.trackURL));});
+          Promise.all(deletes)
+            .catch((err) => {
+              console.log(err.message);
+            })
+            .done(()=>{
+              this.indexTracks(this.props.repetition);
+            });
+        }},
+      ]
+    )
+  }
+
   renderDownloadButton() {
     if (this.state.downloading === true) {
       return (<Text style={{color: 'white'}}>wait</Text>);
@@ -73,7 +93,7 @@ class ArtistShow extends Component {
       return (<Text style={{color: 'white'}}>???</Text>);
     }
     if (this.state.downloaded === true) {
-      return (<Icon name="ios-cloud-done-outline" size={25} color="#fff"/>);
+      return (<Icon onPress={ this.deleteTracks.bind(this) } name="ios-cloud-done-outline" size={25} color="#fff"/>);
     }
     return (<Icon onPress={ this.download.bind(this) } name="ios-cloud-download-outline" size={25} color="#fff"/>);
   }

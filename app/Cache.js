@@ -21,6 +21,10 @@ class Cache {
         return RNFS.exists(url);
     }
 
+    remove(path) {
+        return RNFS.unlink(path);
+    }
+
     downloadURL(url) {
         let localpath = this.localPathForURL(url);
         let localdir = localpath.substring(0, localpath.lastIndexOf("/"));
