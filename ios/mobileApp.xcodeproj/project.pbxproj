@@ -26,6 +26,7 @@
 		1A4B1C48D4434F1893CDA6F5 /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EC8AFF6DE2D45BD882D124E /* libRealmReact.a */; };
 		304B2E30D7F3431C943CC1A5 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FFBF376540154CB18EC8DAFF /* libRNFS.a */; };
 		32287C0A031642C19AA00D82 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6047C9DEFEE54DDEB610C39E /* libc++.tbd */; };
+		36781B151EC8BFF200C3876A /* Icon-Small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 36781B141EC8BFF200C3876A /* Icon-Small@3x.png */; };
 		41FEC85B608C413E99004AA7 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F5AB8E4CA3AF47469B44D6B1 /* Octicons.ttf */; };
 		4EEBE9EAC5E941E295F65A6F /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 93432D38CEA343F59181DE65 /* FontAwesome.ttf */; };
 		53EA442DC544429293802F4C /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACF443E28B404D7098D99E2C /* MaterialIcons.ttf */; };
@@ -218,6 +219,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = mobileApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = mobileApp/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		36781B141EC8BFF200C3876A /* Icon-Small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small@3x.png"; path = "mobileApp/Images.xcassets/AppIcon.appiconset/Icon-Small@3x.png"; sourceTree = "<group>"; };
 		3ACBED0F34BA4F6481F95228 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		44F7E5B4A1A84E158D740259 /* libRCTVideo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTVideo.a; sourceTree = "<group>"; };
 		5322613316144C4EAC78B751 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -361,6 +363,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
+				36781B141EC8BFF200C3876A /* Icon-Small@3x.png */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = mobileApp;
@@ -547,7 +550,13 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = J7F944XSLN;
 						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -796,6 +805,7 @@
 				C8C18A37CCB24B3393D420F8 /* EvilIcons.ttf in Resources */,
 				4EEBE9EAC5E941E295F65A6F /* FontAwesome.ttf in Resources */,
 				D7BCFB3FC833452DB52BFBA0 /* Foundation.ttf in Resources */,
+				36781B151EC8BFF200C3876A /* Icon-Small@3x.png in Resources */,
 				B39252E6814E4F45BB08B9C2 /* Ionicons.ttf in Resources */,
 				53EA442DC544429293802F4C /* MaterialIcons.ttf in Resources */,
 				41FEC85B608C413E99004AA7 /* Octicons.ttf in Resources */,
@@ -922,6 +932,7 @@
 					"$(SRCROOT)/../node_modules/react-native-video",
 					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS/**",
 				);
 				INFOPLIST_FILE = mobileApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -950,6 +961,7 @@
 					"$(SRCROOT)/../node_modules/react-native-video",
 					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS/**",
 				);
 				INFOPLIST_FILE = mobileApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

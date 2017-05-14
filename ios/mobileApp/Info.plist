@@ -6,6 +6,32 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>♪ Review</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array>
+				<string>Icon-Small@3x</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Upload</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+        <string>public.audiovisual-​content</string>
+        <string>public.audio</string>
+        <string>public.mp3</string>
+        <string>public.mpeg-4-audio</string>
+        <string>com.apple.protected-​mpeg-4-audio</string>
+        <string>public.aifc-audio</string>
+        <string>com.apple.coreaudio-​format</string>
+        <string>public.aiff-audio</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

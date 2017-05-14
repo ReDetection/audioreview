@@ -5,6 +5,7 @@ import React, {
 import {
   AppRegistry,
   Navigator,
+  Linking,
   StyleSheet,
   Text,
   StatusBar,
@@ -25,6 +26,22 @@ let model = new Model(modelURL);
 let cache = new Cache();
 
 class RouterComponent extends Component {
+componentDidMount() {
+  var url = Linking.getInitialURL().then((url) => {
+    if (url) {
+      console.log('Initial url is: ' + url);
+    }
+  }).catch(err => console.error('An error occurred', err));
+    Linking.addEventListener('url', this._handleOpenURL);
+}
+componentWillUnmount() {
+  Linking.removeEventListener('url', this._handleOpenURL);
+}
+
+_handleOpenURL(event) {
+  console.log(event.url);
+}
+
   render() {
     return <Router style={ styles.container } hideNavBar={true}>
         <Scene key="login" component={Login} model={model} authURL={authURL} type={ActionConst.REPLACE}/>
