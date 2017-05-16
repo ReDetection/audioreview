@@ -15,6 +15,7 @@ import {Router, Schema, Scene, ActionConst} from 'react-native-router-flux';
 import Login from './components/login/Login';
 import AlbumList from './components/albums/AlbumList';
 import Mentions from './components/mentions/Mentions';
+import UploadScreen from './components/upload/UploadScreen';
 import ArtistShow from './components/tracks/ArtistShow';
 import Player from './components/player/Player';
 import ComposeComment from './components/comments/ComposeComment';
@@ -46,6 +47,7 @@ _handleOpenURL(event) {
     return <Router style={ styles.container } hideNavBar={true}>
         <Scene key="login" component={Login} model={model} authURL={authURL} type={ActionConst.REPLACE}/>
         <Scene key="root" component={AlbumList} title="Albums" model={model} initial={model.databaseRunning} type={ActionConst.REPLACE}/>
+        <Scene key="upload" component={UploadScreen} model={model} />
         <Scene key="mentions" component={Mentions} model={model}/>
         <Scene key="albumShow" component={ArtistShow} title="The Beatles" cache={cache}/>
         <Scene key="player" hideNavBar={true} component={Player} title="Come Together" cache={cache}/>
