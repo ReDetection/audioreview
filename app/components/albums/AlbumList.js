@@ -5,6 +5,7 @@ import React, {
 import {
   StyleSheet,
   Text,
+  Linking,
   View
 } from 'react-native';
 import RealmListView from '../general/RealmListView';
@@ -14,6 +15,27 @@ import AlbumItem from './AlbumItem';
 
 
 class AlbumList extends Component {
+  
+  componentDidMount() {
+    var url = Linking.getInitialURL().then((url) => {
+      this.handleOpenURL(url);
+    }).catch(err => console.error('An error occurred', err));
+    Linking.addEventListener('url', this.handleOpenURLEvent.bind(this));
+  }
+  
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this.handleOpenURLEvent.bind(this));
+  }
+
+  handleOpenURLEvent(event) {
+    this.handleOpenURL(event.url);
+  }
+
+  handleOpenURL(url) {
+    if (url) {
+      Actions.upload({url: url});
+    }
+  }
 
   doLogout() {
     this.props.model.logout();
