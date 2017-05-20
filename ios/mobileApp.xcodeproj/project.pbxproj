@@ -125,6 +125,13 @@
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "mobileApp-tvOS";
 		};
+		360906081ED02F4F001593B4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 83CBBA2D1A601D0E00E9B192;
+			remoteInfo = React;
+		};
 		365E18E71ED002A30049F7DE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B1625295DE724D9CB174FD91 /* RCTVideo.xcodeproj */;
@@ -650,6 +657,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				360906091ED02F4F001593B4 /* PBXTargetDependency */,
 			);
 			name = mobileApp;
 			productName = "Hello World";
@@ -1128,6 +1136,11 @@
 			target = 2D02E47A1E0B4A5D006451C7 /* mobileApp-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
+		360906091ED02F4F001593B4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = React;
+			targetProxy = 360906081ED02F4F001593B4 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -1228,6 +1241,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = ru.redetection.audioreview;
 				PRODUCT_NAME = mobileApp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1252,6 +1266,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = ru.redetection.audioreview;
 				PRODUCT_NAME = mobileApp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
