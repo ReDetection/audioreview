@@ -10,9 +10,9 @@
 #import <AVFoundation/AVFoundation.h>
 #import "AppDelegate.h"
 
-#import "RCTBundleURLProvider.h"
-#import "RCTRootView.h"
-#import "RCTLinkingManager.h"
+#import <React/RCTBundleURLProvider.h>
+#import <React/RCTRootView.h>
+#import <RCTLinkingManager.h>
 
 @implementation AppDelegate
 
