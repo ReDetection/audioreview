@@ -312,6 +312,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#333',
   },
   sliderThumb: {
+    top: 11,
     width: 10,
     height: 10,
     backgroundColor: '#f62976',
