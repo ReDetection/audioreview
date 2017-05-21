@@ -40,6 +40,7 @@ class RealmListView extends Component {
   render() {
     return (
       <ListView 
+        indicatorStyle="white"
         dataSource={this.state.dataSource}
         {...this.props} />
     );
