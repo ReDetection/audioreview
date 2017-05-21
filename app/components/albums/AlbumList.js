@@ -52,10 +52,10 @@ class AlbumList extends Component {
           <Text onPress={ this.doLogout.bind(this) } size={14} style={{color: "#fff"}}>Logout</Text>
         </View>
         <View style={ styles.headerRight }>
-          <Text onPress={ () => { Actions.mentions({collection: this.props.model.mentions, title: "Mentions" }) }} 
-            onLongPress={ () => { Actions.mentions({collection: this.props.model.comments, title: "Comments Feed" }) }}
+          <Text onPress={ () => { Actions.mentions({collection: this.props.model.comments, title: "Comments Feed" }) }} 
+            onLongPress={ () => { Actions.mentions({collection: this.props.model.mentions, title: "Mentions" }) }}
             size={14} style={{color: "#fff"}}>
-              Mentions
+              Comments
           </Text>
         </View>
         <RealmListView collection={this.props.model.repetitions}

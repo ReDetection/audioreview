@@ -3,7 +3,6 @@ import React, {
   Component,
 } from 'react';
 import {
-  Image,
   Dimensions,
   StyleSheet,
   Platform,
@@ -194,7 +193,6 @@ class Player extends Component {
         repeat={false}/>;
     }
 
-    let image = songPlaying.albumImage ? songPlaying.albumImage : this.props.image;
     return (
       <View style={styles.container}>
         { player }
@@ -227,7 +225,9 @@ class Player extends Component {
           { forwardButton }
         </View>
         <Icon style={styles.headerComment} name="ios-chatbubbles-outline" size={25} color="#fff" onPress = { this.onTapCompose.bind(this) }/>
-        <CommentsList song={songPlaying} onSelectComment={this.onSelectComment.bind(this)} onLongSelectComment={this.onLongSelectComment.bind(this)}/>
+        <View style={styles.wide}>
+          <CommentsList song={songPlaying} onSelectComment={this.onSelectComment.bind(this)} onLongSelectComment={this.onLongSelectComment.bind(this)}/>
+        </View>
       </View>
     );
   }
@@ -238,6 +238,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#000',
+  },
+  wide: {
+    left: 0,
+    right: 0,
   },
   header: {
     paddingTop: 10,
@@ -253,10 +257,6 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 20,
     paddingRight: 20,
-  },
-
-  composeToolbar: {
-    width: window.width,
   },
   headerText: {
     color: "#FFF",
@@ -312,6 +312,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#333',
   },
   sliderThumb: {
+    top: 11,
     width: 10,
     height: 10,
     backgroundColor: '#f62976',

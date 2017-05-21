@@ -103,7 +103,7 @@ class Model {
     }
 
     findTrackWithComment(comment) {
-      return this.realm.objects('Track').filtered('comments.text == $0', comment.text)[0]; //fixme when objects query or backlinks will be supported
+      return this.realm.objects('Track').filtered('comments == $0', comment)[0];
     }
 
     get comments() {
