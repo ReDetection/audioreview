@@ -3,6 +3,7 @@ var Realm = require('realm');
 const RepetitionSchema = {
   name: 'Repetition',
   properties: {
+    uuid: {type: 'string', default: ""},
     title: 'string',
     date: 'date',
     imageURL: {type: 'string', optional: true},
@@ -34,6 +35,14 @@ const NicknameSchema = {
     nickname:     'string',
   }
 };
+const ConfigSchema = {
+  name: 'Config',
+  primaryKey: 'key',
+  properties: {
+    key: 'string',
+    value: 'string',
+  }
+};
 
 
 class Model {
@@ -56,8 +65,8 @@ class Model {
           user: user,
           url: this.realmURL,
         },
-        schema: [RepetitionSchema, TrackSchema, CommentSchema, NicknameSchema],
-        schemaVersion: 2,
+        schema: [RepetitionSchema, TrackSchema, CommentSchema, NicknameSchema, ConfigSchema],
+        schemaVersion: 3,
       });
     }
 
@@ -73,6 +82,14 @@ class Model {
         const user = users[key];
         user.logout();
       }
+    }
+
+    get bandUUID() {
+      let configs = this.realm.objects('Config').filtered('key == "BAND_UUID"');
+      if (configs.length == 0){
+        return undefined
+      }
+      return configs[0].value
     }
 
     get nicknameObject() {
