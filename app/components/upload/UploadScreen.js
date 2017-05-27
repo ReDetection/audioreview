@@ -27,6 +27,9 @@ class UploadScreen extends Component {
     this.state = {phase: 'prepare'};
   }
 
+  upload(album) {
+  }
+
   renderPrepare() {
     const albumSelector = (this.state.title || '').length == 0 ? null : (
       <View>
@@ -34,7 +37,7 @@ class UploadScreen extends Component {
           <Text style={styles.headerText}>Select album</Text>
         </View>
         <RealmListView collection={this.props.model.repetitions}
-          renderRow={ ( album ) => <AlbumItem repetition={ album } /> } />
+          renderRow={ ( album ) => <AlbumItem repetition={ album } onPress={ () => {this.upload(album);} /> } />
       </View>
     );
     return (
