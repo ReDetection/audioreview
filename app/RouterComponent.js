@@ -20,7 +20,7 @@ import Player from './components/player/Player';
 import ComposeComment from './components/comments/ComposeComment';
 import Model from './Model';
 import Cache from './Cache';
-import {modelURL, authURL} from '../config.js';
+import {modelURL, authURL, uploadBaseURL, uploadedTracksBaseUrl} from '../config.js';
 
 let model = new Model(modelURL);
 let cache = new Cache();
@@ -31,7 +31,7 @@ class RouterComponent extends Component {
     return <Router style={ styles.container } hideNavBar={true}>
         <Scene key="login" component={Login} model={model} authURL={authURL} type={ActionConst.REPLACE}/>
         <Scene key="root" component={AlbumList} title="Albums" model={model} initial={model.databaseRunning} type={ActionConst.REPLACE}/>
-        <Scene key="upload" component={UploadScreen} model={model} />
+        <Scene key="upload" component={UploadScreen} model={model} uploadBaseURL={uploadBaseURL} uploadedTracksBaseUrl={uploadedTracksBaseUrl} />
         <Scene key="mentions" component={Mentions} model={model}/>
         <Scene key="albumShow" component={ArtistShow} title="The Beatles" cache={cache}/>
         <Scene key="player" hideNavBar={true} component={Player} title="Come Together" cache={cache}/>

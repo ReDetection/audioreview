@@ -17,6 +17,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import BackButton from '../general/BackButton';
 import RealmListView from '../general/RealmListView';
 import AlbumItem from '../albums/AlbumItem';
+import RNFetchBlob from 'react-native-fetch-blob';
+import parse from "url-parse";
 
 const window = Dimensions.get('window');
 
@@ -28,6 +30,21 @@ class UploadScreen extends Component {
   }
 
   upload(album) {
+    this.setState({phase: 'upload'});
+
+    let endpoint = this.props.uploadBaseURL + '/' + this.props.model.bandUUID + '/' + album.uuid;
+    let filepath = parse(this.props.url).pathname;
+    let filename = filepath.replace(/^.*[\\\/]/, '');
+    let file = RNFetchBlob.wrap(filepath);
+    RNFetchBlob.fetch('POST', endpoint, {
+      'Content-Type' : 'multipart/form-data',
+     }, [{name: 'track', filename: filename, data: file}])
+      .then((res) => {
+        let newURLPath = res.json().name;
+      })
+      .catch((err) => {
+        this.setState({phase: 'prepare', error: err});
+      });
   }
 
   renderPrepare() {
@@ -37,7 +54,7 @@ class UploadScreen extends Component {
           <Text style={styles.headerText}>Select album</Text>
         </View>
         <RealmListView collection={this.props.model.repetitions}
-          renderRow={ ( album ) => <AlbumItem repetition={ album } onPress={ () => {this.upload(album);} /> } />
+          renderRow={ ( album ) => <AlbumItem repetition={ album } onPress={ () => {this.upload(album);}} /> } />
       </View>
     );
     return (
@@ -53,6 +70,14 @@ class UploadScreen extends Component {
     );
   }
 
+  renderUpload() {
+    return (
+      <View>
+        <Text style={styles.headerText}>Uploading...</Text>
+      </View>
+    );
+  }
+
   render() {
     return (
       <View style={styles.background}>
@@ -62,7 +87,7 @@ class UploadScreen extends Component {
           </Text>
         </View>
         <BackButton />
-        { this.renderPrepare() }
+        { this.state.phase == 'prepare' ? this.renderPrepare() : this.renderUpload() }
       </View>
     );
   }

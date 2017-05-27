@@ -145,6 +145,12 @@ class Model {
         });
     }
 
+    createTrack(album, title, url) {
+        this.realm.write(()=>{
+          album.tracks.push({title: title, trackURL: url});
+        });   
+    }
+
 };
 
 
