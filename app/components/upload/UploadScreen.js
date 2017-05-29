@@ -41,6 +41,12 @@ class UploadScreen extends Component {
      }, [{name: 'track', filename: filename, data: file}])
       .then((res) => {
         let newURLPath = res.json().name;
+        if (newURLPath) {
+          this.props.model.createTrack(album, this.state.title, this.props.uploadedTracksBaseUrl + newURLPath);
+          Actions.root();
+        } else { 
+          this.setState({phase: 'prepare', error: {description: "wrong response"}});
+        }
       })
       .catch((err) => {
         this.setState({phase: 'prepare', error: err});
