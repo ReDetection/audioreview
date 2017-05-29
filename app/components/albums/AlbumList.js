@@ -59,7 +59,7 @@ class AlbumList extends Component {
           </Text>
         </View>
         <RealmListView collection={this.props.model.repetitions}
-          renderRow={ ( album ) => <AlbumItem repetition={ album } onPress={ () => Actions.albumShow({ repetition: this.props.repetition }) }/> }/>
+          renderRow={ ( album ) => <AlbumItem repetition={ album } onPress={ () => Actions.albumShow({ repetition: album }) }/> }/>
       </View>
     );
   }
