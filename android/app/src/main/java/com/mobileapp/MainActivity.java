@@ -19,7 +19,15 @@ public class MainActivity extends ReactActivity {
 
     @Override
     public Intent getIntent() {
-        Intent origIntent = super.getIntent();
+        return this.patchIntentIfNeeded(super.getIntent());
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(this.patchIntentIfNeeded(intent));
+    }
+
+    private Intent patchIntentIfNeeded(Intent origIntent) {
         if (origIntent != null && Intent.ACTION_SEND.equals(origIntent.getAction())) {
             return new Intent(Intent.ACTION_VIEW, this.uriFromClipData(origIntent.getClipData()));
         }
