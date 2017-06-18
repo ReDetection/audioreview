@@ -33,7 +33,7 @@ class UploadScreen extends Component {
     this.setState({phase: 'upload'});
 
     let endpoint = this.props.uploadBaseURL + '/' + this.props.model.bandUUID + '/' + album.uuid;
-    let filepath = parse(this.props.url).pathname;
+    let filepath = decodeURI(parse(this.props.url).pathname);
     let filename = filepath.replace(/^.*[\\\/]/, '');
     let file = RNFetchBlob.wrap(filepath);
     RNFetchBlob.fetch('POST', endpoint, {
