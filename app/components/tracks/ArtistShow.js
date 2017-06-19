@@ -173,7 +173,7 @@ class ArtistShow extends Component {
     return (
       <View style={styles.background}>
         <ParallaxScrollView
-          style={ { position: "absolute", top: 0, bottom: 0, left: 0, right: 0, width: window.width, height: window.height } }
+          style={ { position: "absolute", top: 0, bottom: 0, left: 0, right: 0 } }
           parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
           stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
           onScroll={onScroll}
@@ -191,8 +191,11 @@ class ArtistShow extends Component {
 const styles = StyleSheet.create({
   background: {
     backgroundColor: "#000",
-    width: window.width,
-    height: window.height,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
   horizontalContainer: {
     flexDirection: 'row',
@@ -222,7 +225,9 @@ const styles = StyleSheet.create({
   parallaxHeader: {
     alignItems: 'center',
     paddingTop: 40,
-    width: window.width,
+    left: 0,
+    right: 0,
+    flex: 1,
   },
   artistName: {
     fontSize: 23,
@@ -234,10 +239,12 @@ const styles = StyleSheet.create({
     borderRadius: AVATAR_SIZE / 2
   },
   songsList: {
-    flex: 1,
     backgroundColor: "#000",
     paddingTop: 5,
-    height: window.height - STICKY_HEADER_HEIGHT,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    top: 0,
   },
   song: {
     paddingTop: 10,
