@@ -55,7 +55,7 @@ class UploadScreen extends Component {
 
   renderPrepare() {
     const albumSelector = (this.state.title || '').length == 0 ? null : (
-      <View>
+      <View style={styles.albums}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Select album</Text>
         </View>
@@ -64,7 +64,7 @@ class UploadScreen extends Component {
       </View>
     );
     return (
-      <View>
+      <View style={{flex: 1}}>
           <TextInput
             style={ styles.input }
             placeholder="Title"
@@ -140,7 +140,6 @@ const styles = StyleSheet.create({
   backgroundOverlay: {
     position: 'absolute',
     top: 0,
-    // width: window.width,
     backgroundColor: 'rgba(0,0,0,.8)',
   },
   welcome: {
@@ -148,6 +147,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
     color: '#fff',
+  },
+  albums: {
+    bottom: 0,
+    left: 0,
+    right: 0,
+    flex: 1,
   },
 });
 
