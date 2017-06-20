@@ -174,6 +174,7 @@ class ArtistShow extends Component {
       <View style={styles.background}>
         <ParallaxScrollView
           style={ { position: "absolute", top: 0, bottom: 0, left: 0, right: 0 } }
+          contentBackgroundColor='#000'
           parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
           stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
           onScroll={onScroll}
