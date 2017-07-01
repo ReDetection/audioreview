@@ -18,6 +18,7 @@ import CommentsList from './CommentsList';
 
 
 const window = Dimensions.get('window');
+const defaultRewindStep = 10;
 
 class Player extends Component {
   constructor(props){
@@ -82,10 +83,7 @@ class Player extends Component {
       });
       this.lookupSongURLWithIndex(newIndex);
     } else {
-      this.refs.audio.seek(0);
-      this.setState({
-        currentTime: 0,
-      });
+      this.replay(currentTime);
     }
   }
 
@@ -110,6 +108,28 @@ class Player extends Component {
     if( !this.state.sliding ){
       this.setState({ currentTime: params.currentTime });
     }
+  }
+
+  replay(rewindStep){
+    if(this.state.songDuration === undefined || this.refs.audio === undefined) {
+      return;
+    }
+    let newTime = this.currentTime <= rewindStep ? 0 : this.currentTime - rewindStep;
+    this.refs.audio.seek(newTime);
+    this.setState({
+      currentTime: newTime,
+    });
+  }
+
+  forward(rewindStep){
+    if(this.state.songDuration === undefined || this.refs.audio === undefined) {
+      return;
+    }
+    let newTime = this.currentTime + rewindStep >= this.state.songDuration ? this.state.songDuration : this.currentTime + rewindStep;
+    this.refs.audio.seek(newTime);
+    this.setState({
+      currentTime: newTime,
+    });
   }
 
   onLoad(params){
@@ -220,9 +240,11 @@ class Player extends Component {
           </View>
         </View>
         <View style={ styles.controls }>
+          <Icon onPress={ () => { this.replay(defaultRewindStep) } } style={ styles.back } name="replay-10" size={25} color="#fff" />
           <Icon onPress={ this.goBackward.bind(this) } style={ styles.back } name="ios-skip-backward" size={25} color="#fff" />
           { playButton }
           { forwardButton }
+          <Icon onPress={ () => { this.forward(defaultRewindStep) } } style={ styles.forward } name="forward-10" size={25} color="#fff" />
         </View>
         <Icon style={styles.headerComment} name="ios-chatbubbles-outline" size={25} color="#fff" onPress = { this.onTapCompose.bind(this) }/>
         <View style={styles.wide}>
