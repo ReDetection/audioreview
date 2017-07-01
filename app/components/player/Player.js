@@ -82,6 +82,9 @@ class Player extends Component {
       });
       this.lookupSongURLWithIndex(newIndex);
     } else {
+      if(this.refs.audio === undefined) {
+        return;
+      }
       this.refs.audio.seek(0);
       this.setState({
         currentTime: 0,
@@ -98,6 +101,9 @@ class Player extends Component {
       downloaded: false,
     });
     this.lookupSongURLWithIndex(newIndex);
+    if(this.refs.audio === undefined) {
+        return;
+    }
     this.refs.audio.seek(0);
   }
 
@@ -126,6 +132,9 @@ class Player extends Component {
   }
 
   onSlidingComplete(){
+    if(this.refs.audio === undefined) {
+        return;
+    }
     this.refs.audio.seek( this.state.currentTime );
     this.setState({ sliding: false });
   }
@@ -145,6 +154,9 @@ class Player extends Component {
   }
 
   onSelectComment(comment) {
+    if(this.refs.audio === undefined) {
+        return;
+    }
     this.refs.audio.seek( comment.second );
     this.setState({playing: true});
   }
