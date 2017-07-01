@@ -199,6 +199,7 @@ class Player extends Component {
         paused={!this.state.playing}
         onLoad={ this.onLoad.bind(this) }
         onProgress={ this.setTime.bind(this) }
+        progressUpdateInterval={500.0}
         playInBackground={true}
         onEnd={ this.onEnd.bind(this) }
         resizeMode="cover"
