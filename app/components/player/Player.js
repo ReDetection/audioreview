@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Slider from 'react-native-slider';
 import Video from 'react-native-video';
 import BackButton from '../general/BackButton';
@@ -83,7 +84,7 @@ class Player extends Component {
       });
       this.lookupSongURLWithIndex(newIndex);
     } else {
-      this.replay(currentTime);
+      this.replay(this.state.currentTime);
     }
   }
 
@@ -117,18 +118,20 @@ class Player extends Component {
     if(this.state.songDuration === undefined || this.refs.audio === undefined) {
       return;
     }
-    let newTime = this.currentTime <= rewindStep ? 0 : this.currentTime - rewindStep;
-    this.refs.audio.seek(newTime);
+    let newTime = this.state.currentTime <= rewindStep ? 0 : (this.state.currentTime - rewindStep);
+    
     this.setState({
       currentTime: newTime,
     });
+    this.refs.audio.seek(newTime);
   }
 
   forward(rewindStep){
     if(this.state.songDuration === undefined || this.refs.audio === undefined) {
       return;
     }
-    let newTime = this.currentTime + rewindStep >= this.state.songDuration ? this.state.songDuration : this.currentTime + rewindStep;
+    let newTime = this.state.currentTime + rewindStep >= this.state.songDuration ? this.state.songDuration : (this.state.currentTime + rewindStep);
+    
     this.refs.audio.seek(newTime);
     this.setState({
       currentTime: newTime,
@@ -201,9 +204,9 @@ class Player extends Component {
 
     let forwardButton;
     if( !this.state.shuffle && this.state.songIndex + 1 === this.props.songs.length ){
-      forwardButton = <Icon style={ styles.forward } name="ios-skip-forward" size={25} color="#333" />;
+      forwardButton = <Icon style={ styles.controlButton } name="ios-skip-forward" size={25} color="#333" />;
     } else {
-      forwardButton = <Icon onPress={ this.goForward.bind(this) } style={ styles.forward } name="ios-skip-forward" size={25} color="#fff" />;
+      forwardButton = <Icon onPress={ this.goForward.bind(this) } style={ styles.controlButton } name="ios-skip-forward" size={25} color="#fff" />;
     }
 
     let player = null;
@@ -250,11 +253,11 @@ class Player extends Component {
           </View>
         </View>
         <View style={ styles.controls }>
-          <Icon onPress={ () => { this.replay(defaultRewindStep) } } style={ styles.back } name="replay-10" size={25} color="#fff" />
-          <Icon onPress={ this.goBackward.bind(this) } style={ styles.back } name="ios-skip-backward" size={25} color="#fff" />
+          <MaterialIcon onPress={ () => { this.replay(defaultRewindStep) } } style={ styles.controlButton } name="replay-10" size={25} color="#fff" />
+          <Icon onPress={ this.goBackward.bind(this) } style={ styles.controlButton } name="ios-skip-backward" size={25} color="#fff" />
           { playButton }
           { forwardButton }
-          <Icon onPress={ () => { this.forward(defaultRewindStep) } } style={ styles.forward } name="forward-10" size={25} color="#fff" />
+          <MaterialIcon onPress={ () => { this.forward(defaultRewindStep) } } style={ styles.controlButton } name="forward-10" size={25} color="#fff" />
         </View>
         <Icon style={styles.headerComment} name="ios-chatbubbles-outline" size={25} color="#fff" onPress = { this.onTapCompose.bind(this) }/>
         <View style={styles.wide}>
@@ -301,17 +304,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 15,
   },
-  back: {
+  controlButton: {
     padding: 22,
-    marginLeft: 23,
   },
   play: {
     marginLeft: 28,
     marginRight: 28,
-  },
-  forward: {
-    padding: 22,
-    marginRight: 23,
   },
   shuffle: {
     marginTop: 26,
