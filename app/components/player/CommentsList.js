@@ -35,6 +35,7 @@ class CommentsList extends Component {
   render() {
     return (
         <RealmListView
+          enableEmptySections={true}
           collection={this.state.song.comments.sorted(['second', 'date'])}
           renderRow={ ( comment ) => <CommentItem comment={ comment } {...this.props} /> }/>
     );

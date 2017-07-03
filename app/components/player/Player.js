@@ -96,6 +96,9 @@ class Player extends Component {
       downloaded: false,
     });
     this.lookupSongURLWithIndex(newIndex);
+    if(this.refs.audio === undefined) {
+        return;
+    }
     this.refs.audio.seek(0);
   }
 
@@ -146,6 +149,9 @@ class Player extends Component {
   }
 
   onSlidingComplete(){
+    if(this.refs.audio === undefined) {
+        return;
+    }
     this.refs.audio.seek( this.state.currentTime );
     this.setState({ sliding: false });
   }
@@ -165,6 +171,9 @@ class Player extends Component {
   }
 
   onSelectComment(comment) {
+    if(this.refs.audio === undefined) {
+        return;
+    }
     this.refs.audio.seek( comment.second );
     this.setState({playing: true});
   }
@@ -207,6 +216,7 @@ class Player extends Component {
         paused={!this.state.playing}
         onLoad={ this.onLoad.bind(this) }
         onProgress={ this.setTime.bind(this) }
+        progressUpdateInterval={500.0}
         playInBackground={true}
         onEnd={ this.onEnd.bind(this) }
         resizeMode="cover"
