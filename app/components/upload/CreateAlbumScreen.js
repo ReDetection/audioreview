@@ -19,6 +19,7 @@ import BackButton from '../general/BackButton';
 import AlbumItemRaw from '../albums/AlbumItemRaw';
 import RNFetchBlob from 'react-native-fetch-blob';
 import parse from "url-parse";
+import ImagePicker from 'react-native-image-picker';
 
 
 class CreateAlbumScreen extends Component {
@@ -27,7 +28,7 @@ class CreateAlbumScreen extends Component {
     super(props);
     this.state = {
       phase: 'prepare',
-      imageURL: 'http://34.251.97.88:20080/1382DF7C-063D-4F2D-AC31-E9C90D45CECF/2017-06-28-3EB75CEF-2676-43ED-8580-8DBD28D3E107/781de919-9c90-4e87-bef9-7e8b6385bb4b.jpg',
+      imageURL: undefined,
       title: '',
     };
   }
@@ -56,13 +57,35 @@ class CreateAlbumScreen extends Component {
       });
   }
 
+  choosePhoto() {
+    let imagePickerOptions = {
+      title: 'Select Album Art',
+      mediaType: 'photo',
+      maxWidth: '1000px',
+      noData: true,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images'
+      }
+    };
+    ImagePicker.showImagePicker(imagePickerOptions, (response) => {
+      if (response.uri != null) {
+        this.setState({
+          imageURL: response.uri,
+        });
+      }
+    });
+  }
+
   renderPrepare() {
     let imageSource = this.state.imageURL ? {uri: this.state.imageURL} : require('./dashbox.png');
     return (
       <View style={{flex: 1, alignItems: 'stretch'}}>
         <Text style={[styles.text, {marginBottom: 8}]}>Select image and type title:</Text>
         <View style={{flexDirection: 'row', marginLeft: 20, marginRight: 20}}>
-          <Image style={{width: 40, height: 40, marginRight: 8}} source={imageSource} />
+          <TouchableHighlight onPress={this.choosePhoto.bind(this)}>
+            <Image style={{width: 40, height: 40, marginRight: 8}} source={imageSource} />
+          </TouchableHighlight>
           <TextInput
             style={ styles.input }
             placeholder="Title"
@@ -71,7 +94,7 @@ class CreateAlbumScreen extends Component {
           />
         </View>
 
-          <Text style={styles.text}>Preview:</Text>
+          <Text style={[styles.text, {marginBottom: 8}]}>Preview:</Text>
           <AlbumItemRaw title={this.state.title}
                         subtitle="X tracks"
                         imageURL={this.state.imageURL}
