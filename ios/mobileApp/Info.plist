@@ -21,14 +21,14 @@
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
-        <string>public.audiovisual-​content</string>
-        <string>public.audio</string>
-        <string>public.mp3</string>
-        <string>public.mpeg-4-audio</string>
-        <string>com.apple.protected-​mpeg-4-audio</string>
-        <string>public.aifc-audio</string>
-        <string>com.apple.coreaudio-​format</string>
-        <string>public.aiff-audio</string>
+				<string>public.audiovisual-​content</string>
+				<string>public.audio</string>
+				<string>public.mp3</string>
+				<string>public.mpeg-4-audio</string>
+				<string>com.apple.protected-​mpeg-4-audio</string>
+				<string>public.aifc-audio</string>
+				<string>com.apple.coreaudio-​format</string>
+				<string>public.aiff-audio</string>
 			</array>
 		</dict>
 	</array>
@@ -63,6 +63,10 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Photo used as album art</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo used as album art</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
