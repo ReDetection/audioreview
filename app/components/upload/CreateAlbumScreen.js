@@ -20,7 +20,8 @@ import AlbumItemRaw from '../albums/AlbumItemRaw';
 import RNFetchBlob from 'react-native-fetch-blob';
 import parse from "url-parse";
 import ImagePicker from 'react-native-image-picker';
-
+import UUID from 'uuid/v4';
+ 
 
 class CreateAlbumScreen extends Component {
 
@@ -36,8 +37,10 @@ class CreateAlbumScreen extends Component {
   upload(album) {
     this.setState({phase: 'upload'});
 
-    let endpoint = this.props.uploadBaseURL + '/' + this.props.model.bandUUID + '/' + album.uuid;
-    let filepath = decodeURI(parse(this.props.url).pathname);
+    const albumUUID = UUID(); //todo add date
+
+    let endpoint = this.props.uploadBaseURL + '/' + this.props.model.bandUUID + '/' + albumUUID;
+    let filepath = decodeURI(parse(this.props.imageURL).pathname);
     let filename = filepath.replace(/^.*[\\\/]/, '');
     let file = RNFetchBlob.wrap(filepath);
     RNFetchBlob.fetch('POST', endpoint, {
@@ -46,7 +49,7 @@ class CreateAlbumScreen extends Component {
       .then((res) => {
         let newURLPath = res.json().name;
         if (newURLPath) {
-          this.props.model.createTrack(album, this.state.title, this.props.uploadedTracksBaseUrl + newURLPath);
+          this.props.model.createAlbum(this.state.title, this.props.uploadedTracksBaseUrl + newURLPath, albumUUID);
           Actions.root();
         } else { 
           this.setState({phase: 'prepare', error: {description: "wrong response"}});

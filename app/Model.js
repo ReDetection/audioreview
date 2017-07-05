@@ -151,6 +151,12 @@ class Model {
         });   
     }
 
+    createAlbum(title, imageURL, uuid) {
+      this.realm.write(()=>{
+        this.realm.create('Repetition', {title: title, uuid: uuid, imageURL: imageURL, date: new Date()});
+      });
+    }
+
 };
 
 
