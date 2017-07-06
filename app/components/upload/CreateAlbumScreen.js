@@ -21,6 +21,7 @@ import RNFetchBlob from 'react-native-fetch-blob';
 import parse from "url-parse";
 import ImagePicker from 'react-native-image-picker';
 import UUID from 'uuid/v4';
+import moment from 'moment';
  
 
 class CreateAlbumScreen extends Component {
@@ -37,10 +38,10 @@ class CreateAlbumScreen extends Component {
   upload(album) {
     this.setState({phase: 'upload'});
 
-    const albumUUID = UUID(); //todo add date
+    const albumUUID = moment().format('YYYY-MM-DD-') + UUID(); 
 
     let endpoint = this.props.uploadBaseURL + '/' + this.props.model.bandUUID + '/' + albumUUID;
-    let filepath = decodeURI(parse(this.props.imageURL).pathname);
+    let filepath = decodeURI(parse(this.state.imageURL).pathname);
     let filename = filepath.replace(/^.*[\\\/]/, '');
     let file = RNFetchBlob.wrap(filepath);
     RNFetchBlob.fetch('POST', endpoint, {
