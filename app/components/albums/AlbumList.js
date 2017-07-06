@@ -3,8 +3,10 @@ import React, {
   Component,
 } from 'react';
 import {
+  Image,
   StyleSheet,
   Text,
+  TouchableHighlight,
   Linking,
   View
 } from 'react-native';
@@ -12,6 +14,7 @@ import RealmListView from '../general/RealmListView';
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 import AlbumItem from './AlbumItem';
+import AlbumItemRaw from './AlbumItemRaw';
 
 
 class AlbumList extends Component {
@@ -42,6 +45,12 @@ class AlbumList extends Component {
     Actions.login({});
   }
 
+  renderAddAlbum() {
+    return <TouchableHighlight style={styles.addAlbum} onPress={ ()=>Actions.createAlbum() } >
+      <Image source={require('./empty.png')} style={{flex:1, flexShrink: 1, height: 141}} resizeMode='contain'/>
+    </TouchableHighlight>;
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -59,6 +68,7 @@ class AlbumList extends Component {
           </Text>
         </View>
         <RealmListView collection={this.props.model.repetitions}
+          renderFooter={ this.renderAddAlbum.bind(this) }
           renderRow={ ( album ) => <AlbumItem repetition={ album } onPress={ () => Actions.albumShow({ repetition: album }) }/> }/>
       </View>
     );
@@ -71,6 +81,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
     backgroundColor: '#111',
+  },
+  addAlbum: {
+    height: 141,
+    flex: 1,
+    width: '100%',
+    flexDirection: 'row',
   },
   welcome: {
     fontSize: 20,
