@@ -15,6 +15,7 @@ import Login from './components/login/Login';
 import AlbumList from './components/albums/AlbumList';
 import Mentions from './components/mentions/Mentions';
 import UploadScreen from './components/upload/UploadScreen';
+import CreateAlbumScreen from './components/upload/CreateAlbumScreen';
 import ArtistShow from './components/tracks/ArtistShow';
 import Player from './components/player/Player';
 import ComposeComment from './components/comments/ComposeComment';
@@ -32,6 +33,7 @@ class RouterComponent extends Component {
         <Scene key="login" component={Login} model={model} authURL={authURL} type={ActionConst.REPLACE}/>
         <Scene key="root" component={AlbumList} title="Albums" model={model} initial={model.databaseRunning} type={ActionConst.REPLACE}/>
         <Scene key="upload" component={UploadScreen} model={model} uploadBaseURL={uploadBaseURL} uploadedTracksBaseUrl={uploadedTracksBaseUrl} />
+        <Scene key="createAlbum" component={CreateAlbumScreen} model={model} uploadBaseURL={uploadBaseURL} uploadedTracksBaseUrl={uploadedTracksBaseUrl} />
         <Scene key="mentions" component={Mentions} model={model}/>
         <Scene key="albumShow" component={ArtistShow} title="The Beatles" cache={cache}/>
         <Scene key="player" hideNavBar={true} component={Player} title="Come Together" cache={cache}/>
