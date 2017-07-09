@@ -65,7 +65,7 @@ class CreateAlbumScreen extends Component {
     let imagePickerOptions = {
       title: 'Select Album Art',
       mediaType: 'photo',
-      maxWidth: '1000px',
+      maxWidth: 1000,
       noData: true,
       storageOptions: {
         skipBackup: true,
