@@ -1,0 +1,110 @@
+import React, {
+  Component,
+} from 'react';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View
+} from 'react-native';
+import UUID from 'uuid/v4';
+import BackButton from '../general/BackButton';
+
+
+class InvitePeople extends Component {
+
+    constructor(props) {
+      super(props);      
+      this.managementRealm = this.props.model.managementRealm;
+      this.state = {offer: this.obtainOffer()};
+    }
+
+    obtainOffer() {
+      let offer;
+      let expirationDate = new Date();
+      expirationDate.setDate(expirationDate.getDate() + 1); // Expires in a day.
+      this.managementRealm.write(() => {
+        offer = this.managementRealm.create('PermissionOffer', {
+          id: UUID(),
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          userId: '*',
+          realmUrl: this.props.realmUrl,
+          mayRead: true,
+          mayWrite: true,
+          mayManage: false,
+          expiresAt: expirationDate,
+        });
+      });
+      return offer;
+    }
+
+    componentDidMount() {
+      this.managementRealm.addListener('change', ()=>{
+        this.forceUpdate();
+      });
+    }
+
+    componentWillUnmount() {
+      this.managementRealm.removeAllListeners();
+    }
+
+    renderMessage(message, color) {
+      return <View>
+        <Text style={{'color': color}}>{message}</Text>
+      </View>;
+    }
+
+    renderTokenInterface(token) {
+      return <View>
+        <Text style={styles.text}>Share this string to other people:</Text>
+        <TextInput style={[styles.text, styles.whiteBorder]}
+                   editable={false}
+                   value={token}
+        />
+      </View>;
+    } 
+
+    render() {
+      let contents;
+      if (this.state.offer == null) {
+        contents = this.renderMessage("Can't create offer! Are you connected?", 'red');
+
+      } else if (this.state.offer.statusCode > 0) {
+        contents = this.renderMessage(this.state.offer.statusMessage, 'red');
+        
+      } else if (this.state.offer.token == null) {
+        contents = this.renderMessage('Downloading token', 'white');
+
+      } else if (this.state.offer.token.length > 0) {
+        contents = this.renderTokenInterface(this.state.offer.token);
+
+      }
+      return <View style={styles.background}>
+        <View style={ styles.header }>
+          <Text style={ styles.headerText }>
+            Invite
+          </Text>
+        </View>
+        <BackButton />
+        { contents }
+      </View>;
+    }
+
+};
+
+const styles = StyleSheet.create({
+  text: {
+    color: 'white',
+  },
+  background: {
+    backgroundColor: "#000",
+    flex: 1,
+  },
+  whiteBorder: {
+    borderColor: 'white', 
+    borderWidth: 1,
+  }
+});
+
+export default InvitePeople;

@@ -100,6 +100,10 @@ class Model {
       return all[0];
     }
 
+    get managementRealm() {
+      return this.user.openManagementRealm();
+    }
+
     get nickname() {
       let nicknameObject = this.nicknameObject;
       if (nicknameObject == undefined) {
