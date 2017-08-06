@@ -40,13 +40,14 @@ class InvitePeople extends Component {
     }
 
     componentDidMount() {
-      this.managementRealm.addListener('change', ()=>{
-        this.forceUpdate();
+      this.notificationCollection = this.managementRealm.objects('PermissionOffer').filtered('id = $0', this.state.offer.id);
+      this.notificationCollection.addListener((rows, changes) => {
+         this.forceUpdate();
       });
     }
 
     componentWillUnmount() {
-      this.managementRealm.removeAllListeners();
+      this.notificationCollection.removeAllListeners();
     }
 
     renderMessage(message, color) {
