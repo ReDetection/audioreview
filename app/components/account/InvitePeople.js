@@ -59,7 +59,7 @@ class InvitePeople extends Component {
     renderTokenInterface(token) {
       return <View>
         <Text style={styles.text}>Share this string to other people:</Text>
-        <TextInput style={[styles.text, styles.whiteBorder]}
+        <TextInput style={[styles.text, styles.textField]}
                    editable={false}
                    value={token}
         />
@@ -97,15 +97,29 @@ class InvitePeople extends Component {
 const styles = StyleSheet.create({
   text: {
     color: 'white',
+    margin: 4
   },
   background: {
     backgroundColor: "#000",
     flex: 1,
+    alignItems: 'center',
   },
-  whiteBorder: {
+  textField: {
+    height: 40,
     borderColor: 'white', 
     borderWidth: 1,
-  }
+  },
+  header: {
+    paddingTop: 10,
+    marginTop: 17,
+    marginBottom: 17,
+    width: window.width,
+  },
+  headerText: {
+    color: "#FFF",
+    fontSize: 18,
+    textAlign: 'center',
+  },
 });
 
 export default InvitePeople;
