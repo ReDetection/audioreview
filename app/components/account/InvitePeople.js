@@ -5,10 +5,12 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  View
+  View,
+  Share,
 } from 'react-native';
 import UUID from 'uuid/v4';
 import BackButton from '../general/BackButton';
+import RoundedButton from '../general/RoundedButton';
 
 
 class InvitePeople extends Component {
@@ -42,8 +44,17 @@ class InvitePeople extends Component {
     componentDidMount() {
       this.notificationCollection = this.managementRealm.objects('PermissionOffer').filtered('id = $0', this.state.offer.id);
       this.notificationCollection.addListener((rows, changes) => {
-         this.forceUpdate();
+         if (this.state.offer.token != null && this.state.shareShown != true) {
+           this.presentShareUI();
+         } else {
+           this.forceUpdate();
+         }
       });
+    }
+
+    presentShareUI() {
+      this.setState({shareShown: true});
+      Share.share({message: this.state.offer.token});
     }
 
     componentWillUnmount() {
@@ -63,6 +74,9 @@ class InvitePeople extends Component {
                    editable={false}
                    value={token}
         />
+        <View style={styles.row}>
+          <RoundedButton innerText="Share" onPress={this.presentShareUI.bind(this)} />
+        </View>
       </View>;
     } 
 
@@ -102,12 +116,17 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: "#000",
     flex: 1,
-    alignItems: 'center',
+    alignContent: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   textField: {
     height: 40,
     borderColor: 'white', 
     borderWidth: 1,
+    margin: 4,
   },
   header: {
     paddingTop: 10,
