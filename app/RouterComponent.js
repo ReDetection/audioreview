@@ -20,6 +20,7 @@ import ArtistShow from './components/tracks/ArtistShow';
 import Player from './components/player/Player';
 import ComposeComment from './components/comments/ComposeComment';
 import InvitePeople from './components/account/InvitePeople';
+import JoinGroup from './components/account/JoinGroup';
 import Model from './Model';
 import Cache from './Cache';
 import {realmServer, realmURL, authURL, uploadBaseURL, uploadedTracksBaseUrl} from '../config.js';
@@ -37,6 +38,7 @@ class RouterComponent extends Component {
         <Scene key="upload" component={UploadScreen} model={model} uploadBaseURL={uploadBaseURL} uploadedTracksBaseUrl={uploadedTracksBaseUrl} />
         <Scene key="createAlbum" component={CreateAlbumScreen} model={model} uploadBaseURL={uploadBaseURL} uploadedTracksBaseUrl={uploadedTracksBaseUrl} />
         <Scene key="invite" component={InvitePeople} model={model} realmUrl={realmURL} />
+        <Scene key="join" component={JoinGroup} model={model} />
         <Scene key="mentions" component={Mentions} model={model}/>
         <Scene key="albumShow" component={ArtistShow} title="The Beatles" cache={cache}/>
         <Scene key="player" hideNavBar={true} component={Player} title="Come Together" cache={cache}/>
