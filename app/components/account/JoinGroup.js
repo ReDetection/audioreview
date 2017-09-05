@@ -117,7 +117,7 @@ class JoinGroup extends Component {
     }
 
     connectToRealm(realmPath) {
-      console.log('connect to', realmPath);
+      this.props.callback(realmPath);
     }
 
 };
