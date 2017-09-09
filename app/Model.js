@@ -58,6 +58,18 @@ class Model {
       }
     }
 
+    static get loggedIn() {
+      return this.currentUser != null;
+    }
+
+    static get currentUser() {
+      try {
+        return Realm.Sync.User.current;
+      } catch (err) {
+        return null;
+      }
+    }
+
     connectWithUser(user) {
       this.user = user;
       this.realm = new Realm({
