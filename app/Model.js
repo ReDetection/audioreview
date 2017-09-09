@@ -112,8 +112,8 @@ class Model {
       return all[0];
     }
 
-    get managementRealm() {
-      return this.user.openManagementRealm();
+    static currentUserManagementRealm() {
+      return this.currentUser.openManagementRealm();
     }
 
     get nickname() {

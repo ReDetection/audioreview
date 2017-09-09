@@ -16,8 +16,8 @@ import RoundedButton from '../general/RoundedButton';
 class InvitePeople extends Component {
 
     constructor(props) {
-      super(props);      
-      this.managementRealm = this.props.model.managementRealm;
+      super(props);
+      this.managementRealm = this.props.managementRealmGetter();
       this.state = {offer: this.obtainOffer()};
     }
 

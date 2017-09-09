@@ -17,8 +17,8 @@ import RoundedButton from '../general/RoundedButton';
 class JoinGroup extends Component {
 
     constructor(props) {
-      super(props);      
-      this.managementRealm = this.props.model.managementRealm;
+      super(props);
+      this.managementRealm = this.props.managementRealmGetter();
       this.state = {
         response: null,
         token: "",

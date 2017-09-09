@@ -57,14 +57,15 @@ class RouterComponent extends Component {
         loginState = 'loggedIn';
       }
     }
+    let managementRealmGetter = ()=>{Model.currentUserManagementRealm()};
 
     return <Router style={ styles.container } hideNavBar={true}>
         <Scene key="login" component={Login} model={this.state.model} authURL={authURL} initial={loginState === 'loggedOut'} type={ActionConst.REPLACE}/>
         <Scene key="root" component={AlbumList} title="Albums" model={this.state.model} initial={loginState === 'attached'} type={ActionConst.REPLACE}/>
         <Scene key="upload" component={UploadScreen} model={this.state.model} uploadBaseURL={uploadBaseURL} uploadedTracksBaseUrl={uploadedTracksBaseUrl} />
         <Scene key="createAlbum" component={CreateAlbumScreen} model={this.state.model} uploadBaseURL={uploadBaseURL} uploadedTracksBaseUrl={uploadedTracksBaseUrl} />
-        <Scene key="invite" component={InvitePeople} model={this.state.model} realmUrl={realmURL} />
-        <Scene key="join" component={JoinGroup} model={this.state.model} initial={loginState === 'loggedIn'} callback={this.changeModelTo.bind(this)}/>
+        <Scene key="invite" component={InvitePeople} managementRealmGetter={managementRealmGetter} realmUrl={realmURL} />
+        <Scene key="join" component={JoinGroup} managementRealmGetter={managementRealmGetter} initial={loginState === 'loggedIn'} callback={this.changeModelTo.bind(this)}/>
         <Scene key="mentions" component={Mentions} model={this.state.model}/>
         <Scene key="albumShow" component={ArtistShow} title="The Beatles" cache={cache}/>
         <Scene key="player" hideNavBar={true} component={Player} title="Come Together" cache={cache}/>
