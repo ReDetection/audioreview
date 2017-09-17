@@ -57,20 +57,126 @@ class RouterComponent extends Component {
         loginState = 'loggedIn';
       }
     }
-    let managementRealmGetter = ()=>{Model.currentUserManagementRealm()};
 
-    return <Router style={ styles.container } hideNavBar={true}>
-        <Scene key="login" component={Login} model={this.state.model} authURL={authURL} initial={loginState === 'loggedOut'} type={ActionConst.REPLACE}/>
-        <Scene key="root" component={AlbumList} title="Albums" model={this.state.model} initial={loginState === 'attached'} type={ActionConst.REPLACE}/>
-        <Scene key="upload" component={UploadScreen} model={this.state.model} uploadBaseURL={uploadBaseURL} uploadedTracksBaseUrl={uploadedTracksBaseUrl} />
-        <Scene key="createAlbum" component={CreateAlbumScreen} model={this.state.model} uploadBaseURL={uploadBaseURL} uploadedTracksBaseUrl={uploadedTracksBaseUrl} />
-        <Scene key="invite" component={InvitePeople} managementRealmGetter={managementRealmGetter} realmUrl={realmURL} />
-        <Scene key="join" component={JoinGroup} managementRealmGetter={managementRealmGetter} initial={loginState === 'loggedIn'} callback={this.changeModelTo.bind(this)}/>
-        <Scene key="mentions" component={Mentions} model={this.state.model}/>
-        <Scene key="albumShow" component={ArtistShow} title="The Beatles" cache={cache}/>
-        <Scene key="player" hideNavBar={true} component={Player} title="Come Together" cache={cache}/>
-        <Scene key="compose" component={ComposeComment} model={this.state.model}/>
+    return (
+      <Router style={styles.container} hideNavBar={true}>
+        {this.renderLoginScene({initial: loginState === 'loggedOut'})}
+        {this.renderRootScene({initial: loginState === 'attached'})}
+        {this.renderUploadScene()}
+        {this.renderCreateAlbumScene()}
+        {this.renderInviteScene()}
+        {this.renderJoinScene({initial: loginState === 'loggedIn'})}
+        {this.renderMentionsScene()}
+        {this.renderTracksScene()}
+        {this.renderPlayerScene()}
+        {this.renderComposeCommentScene()}
       </Router>
+    );
+  }
+
+  renderLoginScene(additional) {
+    return (
+      <Scene
+        key='login'
+        component={Login}
+        model={this.state.model}
+        authURL={authURL}
+        {...additional}
+        type={ActionConst.REPLACE}
+      />
+    );
+  }
+  renderRootScene(additional) {
+    return (
+      <Scene
+        key='root'
+        component={AlbumList}
+        title='Albums'
+        model={this.state.model}
+        {...additional}
+        type={ActionConst.REPLACE}
+      />
+    );
+  }
+  renderUploadScene() {
+    return (
+      <Scene
+        key='upload'
+        component={UploadScreen}
+        model={this.state.model}
+        uploadBaseURL={uploadBaseURL}
+        uploadedTracksBaseUrl={uploadedTracksBaseUrl}
+      />
+    );
+  }
+  renderCreateAlbumScene() {
+    return (
+      <Scene
+        key='createAlbum'
+        component={CreateAlbumScreen}
+        model={this.state.model}
+        uploadBaseURL={uploadBaseURL}
+        uploadedTracksBaseUrl={uploadedTracksBaseUrl}
+      />
+    );
+  }
+  renderInviteScene() {
+    return (
+      <Scene
+        key='invite'
+        component={InvitePeople}
+        managementRealmGetter={() => {
+          Model.currentUserManagementRealm();
+        }}
+        realmUrl={realmURL}
+      />
+    );
+  }
+  renderJoinScene(additional) {
+    return (
+      <Scene
+        key='join'
+        component={JoinGroup}
+        managementRealmGetter={() => {
+          Model.currentUserManagementRealm();
+        }}
+        {...additional}
+        callback={this.changeModelTo.bind(this)}
+      />
+    );
+  }
+  renderMentionsScene() {
+    return (
+      <Scene key='mentions' component={Mentions} model={this.state.model} />
+    );
+  }
+  renderTracksScene() {
+    return (
+      <Scene
+        key='albumShow'
+        component={ArtistShow}
+        cache={cache}
+      />
+    );
+  }
+  renderPlayerScene() {
+    return (
+      <Scene
+        key='player'
+        hideNavBar={true}
+        component={Player}
+        cache={cache}
+      />
+    );
+  }
+  renderComposeCommentScene() {
+    return (
+      <Scene
+        key='compose'
+        component={ComposeComment}
+        model={this.state.model}
+      />
+    );
   }
 }
 
