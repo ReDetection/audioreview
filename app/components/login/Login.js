@@ -9,7 +9,6 @@ import {
   View
 } from 'react-native';
 import Button from 'react-native-button';
-import {Actions} from 'react-native-router-flux';
 import RoundedButton from '../general/RoundedButton';
 const Realm = require('realm');
 
@@ -20,7 +19,7 @@ class Login extends Component {
     let password = this.refs.password._lastNativeText;
     Realm.Sync.User.register(this.props.authURL, username, password, (error, user) => { 
       if (user) {
-        this.connectUser(username, user);
+        this.props.loginCallback(user, username);
       } else if (error) {
         this.refs.error.value=error;
       }
@@ -32,19 +31,11 @@ class Login extends Component {
     let password = this.refs.password._lastNativeText;
     Realm.Sync.User.login(this.props.authURL, username, password, (error, user) => { 
       if (user) {
-        this.connectUser(username, user);
+        this.props.loginCallback(user, username);
       } else if (error) {
         this.refs.error.value=error;
       }
     });
-  }
-
-  connectUser(username, user) {
-    this.props.model.connectWithUser(user);
-    if (this.props.model.nickname == undefined) {
-      this.props.model.registerNickname(username);
-    }
-    Actions.root();
   }
 
   render() {

@@ -10,7 +10,7 @@ import {
   StatusBar,
   View
 } from 'react-native';
-import {Router, Schema, Scene, ActionConst} from 'react-native-router-flux';
+import {Actions, Router, Schema, Scene, ActionConst} from 'react-native-router-flux';
 import Login from './components/login/Login';
 import AlbumList from './components/albums/AlbumList';
 import Mentions from './components/mentions/Mentions';
@@ -74,6 +74,11 @@ class RouterComponent extends Component {
     );
   }
 
+  didLogin(user, nickname) {
+    this.setState({'nickname': nickname});
+    Actions.join({type: ActionConst.REPLACE});
+  }
+
   renderLoginScene(additional) {
     return (
       <Scene
@@ -81,6 +86,7 @@ class RouterComponent extends Component {
         component={Login}
         model={this.state.model}
         authURL={authURL}
+        loginCallback={this.didLogin.bind(this)}
         {...additional}
         type={ActionConst.REPLACE}
       />
