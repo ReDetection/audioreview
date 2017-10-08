@@ -19,22 +19,6 @@ import NativeMenu from '../account/NativeMenu';
 
 
 class AlbumList extends Component {
-  
-  constructor(props) {
-    super(props);
-    this.menuOptions = {
-      "Invite": {handler: ()=>{
-        Actions.invite();
-      }},
-      "Switch band": {handler: ()=>{
-        Actions.join();
-      }},
-      "Logout": {destructive: true, handler: ()=>{
-        this.props.model.logout();
-        Actions.login({});
-      }},
-    };
-  }
 
   componentDidMount() {
     var url = Linking.getInitialURL().then((url) => {
@@ -69,7 +53,7 @@ class AlbumList extends Component {
 
   render() {
     return (
-      <NativeMenu options={this.menuOptions} ref="nativeMenu">
+      <NativeMenu options={this.props.menuOptions} ref="nativeMenu">
         <Text style={styles.welcome}>
           Albums
         </Text>

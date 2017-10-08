@@ -27,6 +27,24 @@ import Settings from './Settings';
 import {realmServer, realmURL, authURL, uploadBaseURL, uploadedTracksBaseUrl} from '../config.js';
 
 let cache = new Cache();
+let logoutMenu = {
+  "Logout": {destructive: true, handler: ()=>{
+    Model.currentUser.logout();
+    Actions.login({});
+  }}
+};
+let fullMenu = {
+  "Invite": {handler: ()=>{
+    Actions.invite();
+  }},
+  "Switch band": {handler: ()=>{
+    Actions.join();
+  }},
+  "Logout": {destructive: true, handler: ()=>{
+    Model.currentUser.logout();
+    Actions.login({});
+  }}
+};
 
 class RouterComponent extends Component {
 
@@ -65,7 +83,7 @@ class RouterComponent extends Component {
         {this.renderUploadScene()}
         {this.renderCreateAlbumScene()}
         {this.renderInviteScene()}
-        {this.renderJoinScene({initial: loginState === 'loggedIn'})}
+        {this.renderJoinScene({initial: loginState === 'loggedIn', shouldShowMenu: loginState === 'loggedIn'})}
         {this.renderMentionsScene()}
         {this.renderTracksScene()}
         {this.renderPlayerScene()}
@@ -99,6 +117,7 @@ class RouterComponent extends Component {
         component={AlbumList}
         title='Albums'
         model={this.state.model}
+        menuOptions={fullMenu}
         {...additional}
         type={ActionConst.REPLACE}
       />
@@ -146,6 +165,7 @@ class RouterComponent extends Component {
         managementRealmGetter={() => {
           Model.currentUserManagementRealm();
         }}
+        menuOptions={logoutMenu}
         {...additional}
         callback={this.changeModelTo.bind(this)}
       />

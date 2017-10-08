@@ -12,6 +12,7 @@ import {
 import UUID from 'uuid/v4';
 import BackButton from '../general/BackButton';
 import RoundedButton from '../general/RoundedButton';
+import NativeMenu from '../account/NativeMenu';
 
 
 class JoinGroup extends Component {
@@ -32,17 +33,31 @@ class JoinGroup extends Component {
       }
     }
 
+    openMenu() {
+      this.refs.nativeMenu.present();
+    }
+
+    renderTopLeftButton() {
+      if (this.props.shouldShowMenu) {
+        return <View style={ styles.headerClose }>
+          <Text onPress={ this.openMenu.bind(this) } size={14} style={{color: "#fff"}}>Account</Text>
+        </View>
+      } else {
+        return <BackButton />;
+      }
+    }
+
     render() {
-      return <View style={styles.background}>
+      return <NativeMenu options={this.props.menuOptions} ref="nativeMenu">
         <View style={ styles.header }>
           <Text style={ styles.headerText }>
             Join team
           </Text>
         </View>
-        <BackButton />
+        { this.renderTopLeftButton() }
         { this.renderInputInterface() }
         { this.renderContent() }
-      </View>;
+      </NativeMenu>;
     }
 
     renderContent() {
@@ -145,8 +160,11 @@ const styles = StyleSheet.create({
     margin: 4,
   },
   header: {
+    position: 'absolute',
+    top: 16,
+    left: 0,
+    right: 0,
     paddingTop: 10,
-    marginTop: 17,
     marginBottom: 17,
     width: window.width,
   },
@@ -154,6 +172,15 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontSize: 18,
     textAlign: 'center',
+  },
+  headerClose: {
+    position: 'absolute',
+    top: 16,
+    left: 0,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 10,
+    paddingRight: 20,
   },
 });
 
