@@ -53,7 +53,7 @@ class RouterComponent extends Component {
     this.state = {};
     this.state.modelURL = Settings.realmURL();
     if (this.state.modelURL != null) {
-      this.state.model = new Model(realmServer + this.state.modelURL);
+      this.state.model = new Model(realmServer + this.state.modelURL, this.state.nickname);
     }
   }
 
@@ -61,9 +61,10 @@ class RouterComponent extends Component {
     Settings.setRealmURL(modelUrl);
     let newState = {modelURL: modelUrl, model: null};
     if (newState.modelURL != null) {
-      newState.model = new Model(realmServer + newState.modelURL);
+      newState.model = new Model(realmServer + newState.modelURL, this.state.nickname);
     }
     this.setState(newState);
+    Actions.root();
   }
 
   render() {
@@ -151,7 +152,7 @@ class RouterComponent extends Component {
         key='invite'
         component={InvitePeople}
         managementRealmGetter={() => {
-          Model.currentUserManagementRealm();
+          return Model.currentUserManagementRealm();
         }}
         realmUrl={realmURL}
       />
@@ -163,7 +164,7 @@ class RouterComponent extends Component {
         key='join'
         component={JoinGroup}
         managementRealmGetter={() => {
-          Model.currentUserManagementRealm();
+          return Model.currentUserManagementRealm();
         }}
         menuOptions={logoutMenu}
         {...additional}

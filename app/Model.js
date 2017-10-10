@@ -46,7 +46,7 @@ const ConfigSchema = {
 
 
 class Model {
-    constructor(realmURL) {
+    constructor(realmURL, nickname) {
       this.realmURL = realmURL;
       try {
         var user = Realm.Sync.User.current;
@@ -55,6 +55,9 @@ class Model {
       }
       if (user) {
         this.connectWithUser(user);
+        if (nickname != undefined) {
+          this.registerNickname(nickname);
+        }
       }
     }
 
