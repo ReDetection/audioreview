@@ -1,4 +1,5 @@
 var Realm = require('realm');
+import UUID from 'uuid/v4';
 
 const RepetitionSchema = {
   name: 'Repetition',
@@ -86,10 +87,15 @@ class Model {
 
     get bandUUID() {
       let configs = this.realm.objects('Config').filtered('key == "BAND_UUID"');
-      if (configs.length == 0){
-        return undefined
+      let config;
+      if (configs.length > 0){
+        config = configs[0];
+      } else {
+        this.realm.write(()=>{
+          config = this.realm.create('Config', {key: 'BAND_UUID', value: UUID()}, true);
+        });
       }
-      return configs[0].value
+      return config.value;
     }
 
     get nicknameObject() {
