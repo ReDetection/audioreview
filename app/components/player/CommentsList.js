@@ -13,7 +13,6 @@ import {
   View,
 } from 'react-native';
 import Button from 'react-native-button';
-import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import RealmListView from '../general/RealmListView';
 
