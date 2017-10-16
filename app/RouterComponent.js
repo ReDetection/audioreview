@@ -23,7 +23,6 @@ import InvitePeople from './components/account/InvitePeople';
 import JoinGroup from './components/account/JoinGroup';
 import Model from './Model';
 import Cache from './Cache';
-import Settings from './Settings';
 import {realmServer, realmURL, authURL, uploadBaseURL, uploadedTracksBaseUrl} from '../config.js';
 
 let cache = new Cache();
@@ -51,17 +50,13 @@ class RouterComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.state.modelURL = Settings.realmURL();
-    if (this.state.modelURL != null) {
-      this.state.model = new Model(realmServer + this.state.modelURL, this.state.nickname);
-    }
+    this.state.model = new Model(realmServer, this.state.nickname);
   }
 
   changeModelTo(modelUrl) {
-    Settings.setRealmURL(modelUrl);
     let newState = {modelURL: modelUrl, model: null};
     if (newState.modelURL != null) {
-      newState.model = new Model(realmServer + newState.modelURL, this.state.nickname);
+      newState.model = new Model(realmServer, this.state.nickname);
     }
     this.setState(newState);
     Actions.root();

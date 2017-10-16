@@ -44,11 +44,21 @@ const ConfigSchema = {
     value: 'string',
   }
 };
+const BandSchema = {
+  name: 'Band',
+  primaryKey: 'realmUrl',
+  properties: {
+    realmUrl: 'string',
+    title: 'string',
+    joinedOn: 'date',
+    lastOpen: 'date',
+  }
+};
 
 
 class Model {
-    constructor(realmURL, nickname) {
-      this.realmURL = realmURL;
+    constructor(realmServerURL, nickname) {
+      this.realmServerURL = realmServerURL;
       try {
         var user = Realm.Sync.User.current;
       } catch (err) {
@@ -76,10 +86,32 @@ class Model {
 
     connectWithUser(user) {
       this.user = user;
+      this.userRealm = new Realm({
+        sync: {
+          user: user,
+          url: this.realmServerURL + '/~/bands',
+        },
+        schema: [BandSchema, ConfigSchema],
+        schemaVersion: 1,
+      });
+      let bands = this.bands();
+      if (bands.length > 0) {
+        this.reconnectToBand(bands[0]);
+      }
+    }
+
+    bands() {
+      return this.userRealm.objects('Band').sorted('lastOpen', true);
+    }
+
+    reconnectToRealm(band) {
+      this.userRealm.write(()=>{
+        band.lastOpen = new Date();
+      });
       this.realm = new Realm({
         sync: {
           user: user,
-          url: this.realmURL,
+          url: this.realmServerURL + band.realmUrl,
         },
         schema: [RepetitionSchema, TrackSchema, CommentSchema, NicknameSchema, ConfigSchema],
         schemaVersion: 3,
