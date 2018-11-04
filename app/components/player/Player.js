@@ -82,24 +82,19 @@ class Player extends Component {
     }
   }
 
-  componentDidUpdate() {
-    MusicControl.updatePlayback({
-      state: this.state.songDuration == undefined ? MusicControl.STATE_BUFFERING : (this.state.playing ? MusicControl.STATE_PLAYING : MusicControl.STATE_PAUSED), // (STATE_ERROR, STATE_STOPPED, STATE_PLAYING, STATE_PAUSED, STATE_BUFFERING)
-      elapsedTime: this.state.currentTime,
-    });
-    let shouldShowPrevious = !this.state.playing || this.shouldGoPreviousTrack();
-    MusicControl.enableControl('previousTrack', shouldShowPrevious);
-    MusicControl.enableControl('skipBackward', !shouldShowPrevious, {interval: 10});
-  }
-
-  indicatePlayingTrack() {
+  componentDidUpdate(prevProps, prevState) {
     let songPlaying = this.props.songs[this.state.songIndex];
     MusicControl.setNowPlaying({
       title: songPlaying.title,
       // artwork: 'https://i.imgur.com/e1cpwdo.png', // URL or RN's image require()
       // album: 'Thriller',
       duration: this.state.songDuration,
+      state: this.state.songDuration == undefined ? MusicControl.STATE_BUFFERING : (this.state.playing ? MusicControl.STATE_PLAYING : MusicControl.STATE_PAUSED), // (STATE_ERROR, STATE_STOPPED, STATE_PLAYING, STATE_PAUSED, STATE_BUFFERING)
+      elapsedTime: this.state.currentTime,
     });
+    let shouldShowPrevious = !this.state.playing || this.shouldGoPreviousTrack();
+    MusicControl.enableControl('previousTrack', shouldShowPrevious);
+    MusicControl.enableControl('skipBackward', !shouldShowPrevious, {interval: 10});
   }
 
   switchToSongWithIndex(songIndex) {
@@ -109,7 +104,6 @@ class Player extends Component {
       urlToPlay: null,
       downloaded: false,
     });
-    this.indicatePlayingTrack();
     let songPlaying = this.props.songs[songIndex];
     this.props.cache.hasLocalCacheForURL(songPlaying.trackURL)
       .done((has)=>{
@@ -117,7 +111,6 @@ class Player extends Component {
           urlToPlay: has ? this.props.cache.localPathForURL(songPlaying.trackURL) : songPlaying.trackURL,
           downloaded: has,
         });
-        this.indicatePlayingTrack();
       });
   }
 
@@ -192,7 +185,6 @@ class Player extends Component {
 
   onLoad(params){
     this.setState({ songDuration: params.duration });
-    this.indicatePlayingTrack();
   }
 
   onSlidingStart(){
