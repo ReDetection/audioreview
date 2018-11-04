@@ -16,6 +16,7 @@ import Slider from 'react-native-slider';
 import Video from 'react-native-video';
 import BackButton from '../general/BackButton';
 import CommentsList from './CommentsList';
+import MusicControl from 'react-native-music-control';
 
 
 const window = Dimensions.get('window');
@@ -37,7 +38,38 @@ class Player extends Component {
   }
 
   componentWillMount() {
-    this.lookupSongURLWithIndex(this.state.songIndex);
+    this.switchToSongWithIndex(this.state.songIndex);
+  }
+
+  componentDidMount() {
+    MusicControl.enableBackgroundMode(true);
+    MusicControl.handleAudioInterruptions(true);
+    MusicControl.enableControl('play', true);
+    MusicControl.enableControl('pause', true);
+    MusicControl.enableControl('stop', false);
+    MusicControl.enableControl('nextTrack', true);
+    MusicControl.on('play', () => {
+      this.setState({ playing: true });
+    });
+    MusicControl.on('pause', () => {
+      this.setState({ playing: false });
+    });
+    MusicControl.on('nextTrack', () => {
+      this.goForward();
+    });
+    MusicControl.on('previousTrack', () => {
+      this.goBackward();
+    });
+    MusicControl.on('skipBackward', () => {
+      this.replay(defaultRewindStep);
+    });
+    MusicControl.on('skipForward', () => {
+      this.forward(defaultRewindStep);
+    });
+  }
+
+  componentWillUnmount() {
+    MusicControl.stopControl();
   }
 
   componentWillReceiveProps(newProps) {
@@ -50,7 +82,34 @@ class Player extends Component {
     }
   }
 
-  lookupSongURLWithIndex(songIndex) {
+  componentDidUpdate() {
+    MusicControl.updatePlayback({
+      state: this.state.songDuration == undefined ? MusicControl.STATE_BUFFERING : (this.state.playing ? MusicControl.STATE_PLAYING : MusicControl.STATE_PAUSED), // (STATE_ERROR, STATE_STOPPED, STATE_PLAYING, STATE_PAUSED, STATE_BUFFERING)
+      elapsedTime: this.state.currentTime,
+    });
+    let shouldShowPrevious = !this.state.playing || this.shouldGoPreviousTrack();
+    MusicControl.enableControl('previousTrack', shouldShowPrevious);
+    MusicControl.enableControl('skipBackward', !shouldShowPrevious, {interval: 10});
+  }
+
+  indicatePlayingTrack() {
+    let songPlaying = this.props.songs[this.state.songIndex];
+    MusicControl.setNowPlaying({
+      title: songPlaying.title,
+      // artwork: 'https://i.imgur.com/e1cpwdo.png', // URL or RN's image require()
+      // album: 'Thriller',
+      duration: this.state.songDuration,
+    });
+  }
+
+  switchToSongWithIndex(songIndex) {
+    this.setState({
+      songIndex: songIndex,
+      currentTime: 0,
+      urlToPlay: null,
+      downloaded: false,
+    });
+    this.indicatePlayingTrack();
     let songPlaying = this.props.songs[songIndex];
     this.props.cache.hasLocalCacheForURL(songPlaying.trackURL)
       .done((has)=>{
@@ -58,6 +117,7 @@ class Player extends Component {
           urlToPlay: has ? this.props.cache.localPathForURL(songPlaying.trackURL) : songPlaying.trackURL,
           downloaded: has,
         });
+        this.indicatePlayingTrack();
       });
   }
 
@@ -73,16 +133,14 @@ class Player extends Component {
     this.setState({ shuffle: !this.state.shuffle });
   }
 
+  shouldGoPreviousTrack() {
+    return this.state.currentTime < 3 && this.state.songIndex !== 0;
+  }
+
   goBackward(){
-    if(this.state.currentTime < 3 && this.state.songIndex !== 0 ){
-      let newIndex = this.state.songIndex - 1
-      this.setState({
-        songIndex: newIndex,
-        currentTime: 0,
-        urlToPlay: null,
-        downloaded: false,
-      });
-      this.lookupSongURLWithIndex(newIndex);
+    if(this.shouldGoPreviousTrack()){
+      let newIndex = this.state.songIndex - 1;
+      this.switchToSongWithIndex(newIndex);
     } else {
       this.replay(this.state.currentTime);
     }
@@ -90,13 +148,7 @@ class Player extends Component {
 
   goForward(){
     let newIndex = this.state.songIndex + 1;
-    this.setState({
-      songIndex: newIndex,
-      currentTime: 0,
-      urlToPlay: null,
-      downloaded: false,
-    });
-    this.lookupSongURLWithIndex(newIndex);
+    this.switchToSongWithIndex(newIndex);
     if(this.refs.audio === undefined) {
         return;
     }
@@ -140,6 +192,7 @@ class Player extends Component {
 
   onLoad(params){
     this.setState({ songDuration: params.duration });
+    this.indicatePlayingTrack();
   }
 
   onSlidingStart(){
@@ -220,7 +273,7 @@ class Player extends Component {
         onLoad={ this.onLoad.bind(this) }
         onProgress={ this.setTime.bind(this) }
         progressUpdateInterval={500.0}
-        playInBackground={true}
+        playWhenInactive={true}
         onEnd={ this.onEnd.bind(this) }
         resizeMode="cover"
         repeat={false}/>;
