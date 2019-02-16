@@ -26,15 +26,28 @@ class UploadScreen extends Component {
 
   constructor(props){
     super(props);
-    this.state = {phase: 'prepare'};
+    let title = undefined;
+    if (props.url != undefined) {
+      let filename = this.filename(this.filepath(props.url));
+      title = filename.match(/^(.*)\..*?$/)[1];
+    }
+    this.state = {phase: 'prepare', title: title};
+  }
+
+  filepath(url) {
+    return decodeURI(parse(url).pathname);
+  }
+
+  filename(filepath) {
+    return filepath.replace(/^.*[\\\/]/, '');
   }
 
   upload(album) {
     this.setState({phase: 'upload'});
 
     let endpoint = this.props.uploadBaseURL + '/' + this.props.model.bandUUID + '/' + album.uuid;
-    let filepath = decodeURI(parse(this.props.url).pathname);
-    let filename = filepath.replace(/^.*[\\\/]/, '');
+    let filepath = this.filepath(this.props.url);
+    let filename = this.filename(filepath);
     let file = RNFetchBlob.wrap(filepath);
     RNFetchBlob.fetch('POST', endpoint, {
       'Content-Type' : 'multipart/form-data',
