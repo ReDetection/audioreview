@@ -66,7 +66,7 @@ class Model {
       }
       if (user) {
         this.connectWithUser(user);
-        if (nickname != undefined) {
+        if (nickname != undefined && self.realm != undefined) {
           this.registerNickname(nickname);
         }
       }
@@ -89,19 +89,29 @@ class Model {
       this.userRealm = new Realm({
         sync: {
           user: user,
-          url: this.realmServerURL + '/~/bands',
+          url: this.realmServerURL + '~/bands',
         },
         schema: [BandSchema, ConfigSchema],
         schemaVersion: 1,
       });
       let bands = this.bands();
       if (bands.length > 0) {
-        this.reconnectToBand(bands[0]);
+        this.reconnectToRealm(bands[0].realmUrl);
       }
     }
 
     bands() {
       return this.userRealm.objects('Band').sorted('lastOpen', true);
+    }
+
+    createBand(titled, uuid) {
+      let path = '~/' + uuid;
+      let band = null;
+      this.userRealm.write(()=>{
+        band = this.userRealm.create('Band', {realmUrl: path, title: titled, joinedOn: new Date(), lastOpen: new Date()});
+      });
+      reconnectToRealm(band);
+      return band;
     }
 
     reconnectToRealm(band) {
@@ -110,7 +120,7 @@ class Model {
       });
       this.realm = new Realm({
         sync: {
-          user: user,
+          user: this.user,
           url: this.realmServerURL + band.realmUrl,
         },
         schema: [RepetitionSchema, TrackSchema, CommentSchema, NicknameSchema, ConfigSchema],

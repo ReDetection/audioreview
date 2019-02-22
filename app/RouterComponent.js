@@ -20,30 +20,13 @@ import ArtistShow from './components/tracks/ArtistShow';
 import Player from './components/player/Player';
 import ComposeComment from './components/comments/ComposeComment';
 import InvitePeople from './components/account/InvitePeople';
+import CreateBand from './components/account/CreateBand';
 import JoinGroup from './components/account/JoinGroup';
 import Model from './Model';
 import Cache from './Cache';
 import {realmServer, realmURL, authURL, uploadBaseURL, uploadedTracksBaseUrl} from '../config.js';
 
 let cache = new Cache();
-let logoutMenu = {
-  "Logout": {destructive: true, handler: ()=>{
-    Model.currentUser.logout();
-    Actions.login({});
-  }}
-};
-let fullMenu = {
-  "Invite": {handler: ()=>{
-    Actions.invite();
-  }},
-  "Switch band": {handler: ()=>{
-    Actions.join();
-  }},
-  "Logout": {destructive: true, handler: ()=>{
-    Model.currentUser.logout();
-    Actions.login({});
-  }}
-};
 
 class RouterComponent extends Component {
 
@@ -51,6 +34,38 @@ class RouterComponent extends Component {
     super(props);
     this.state = {};
     this.state.model = new Model(realmServer, this.state.nickname);
+    this.createMenu();
+  }
+
+  createMenu() {
+    this.logoutMenu = {
+      "Create band": {handler: ()=>{
+        this.createBand();
+      }},
+      "Logout": {destructive: true, handler: ()=>{
+        Model.currentUser.logout();
+        Actions.login({});
+      }}
+    };
+    this.fullMenu = {
+      "Invite": {handler: ()=>{
+        Actions.invite();
+      }},
+      "Switch band": {handler: ()=>{
+        Actions.join();
+      }},
+      "Create band": {handler: ()=>{
+        this.createBand();
+      }},
+      "Logout": {destructive: true, handler: ()=>{
+        Model.currentUser.logout();
+        Actions.login({});
+      }}
+    };
+  }
+
+  createBand() {
+    Actions.createBand({type: ActionConst.PUSH});
   }
 
   changeModelTo(modelUrl) {
@@ -80,6 +95,7 @@ class RouterComponent extends Component {
         {this.renderCreateAlbumScene()}
         {this.renderInviteScene()}
         {this.renderJoinScene({initial: loginState === 'loggedIn', shouldShowMenu: loginState === 'loggedIn'})}
+        {this.renderCreateBandScene({shouldShowMenu: loginState === 'loggedIn'})}
         {this.renderMentionsScene()}
         {this.renderTracksScene()}
         {this.renderPlayerScene()}
@@ -89,8 +105,11 @@ class RouterComponent extends Component {
   }
 
   didLogin(user, nickname) {
-    this.setState({'nickname': nickname});
-    Actions.join({type: ActionConst.REPLACE});
+    let newModel = new Model(realmServer, nickname);
+    newModel.connectWithUser(user);
+    this.setState({'nickname': nickname, model: newModel}, ()=>{
+      Actions.join({type: ActionConst.REPLACE});      
+    });
   }
 
   renderLoginScene(additional) {
@@ -113,7 +132,7 @@ class RouterComponent extends Component {
         component={AlbumList}
         title='Albums'
         model={this.state.model}
-        menuOptions={fullMenu}
+        menuOptions={this.fullMenu}
         {...additional}
         type={ActionConst.REPLACE}
       />
@@ -161,7 +180,19 @@ class RouterComponent extends Component {
         managementRealmGetter={() => {
           return Model.currentUserManagementRealm();
         }}
-        menuOptions={logoutMenu}
+        menuOptions={this.logoutMenu}
+        {...additional}
+        callback={this.changeModelTo.bind(this)}
+      />
+    );
+  }
+  renderCreateBandScene(additional) {
+    return (
+      <Scene
+        key='createBand'
+        component={CreateBand}
+        model={this.state.model}
+        menuOptions={this.logoutMenu}
         {...additional}
         callback={this.changeModelTo.bind(this)}
       />
