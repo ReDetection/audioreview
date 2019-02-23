@@ -170,7 +170,9 @@ class RouterComponent extends Component {
       <Scene
         key='invite'
         component={InvitePeople}
-        model={this.state.model}
+        managementRealmGetter={() => {
+          return Model.currentUserManagementRealm();
+        }}
       />
     );
   }

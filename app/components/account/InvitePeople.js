@@ -23,15 +23,14 @@ class InvitePeople extends Component {
 
     obtainOffer() {
       let offer;
-      let expirationDate = new Date();
-      expirationDate.setDate(expirationDate.getDate() + 1); // Expires in a day.
+      let expirationDate = new Date(Date.now() + 60*60*24*1000); // Expires in a day.
       this.managementRealm.write(() => {
         offer = this.managementRealm.create('PermissionOffer', {
           id: UUID(),
           createdAt: new Date(),
           updatedAt: new Date(),
           userId: '*',
-          realmUrl: this.props.realmUrl,
+          realmUrl: '/' + this.props.realmUrl,
           mayRead: true,
           mayWrite: true,
           mayManage: false,
@@ -44,12 +43,16 @@ class InvitePeople extends Component {
     componentDidMount() {
       this.notificationCollection = this.managementRealm.objects('PermissionOffer').filtered('id = $0', this.state.offer.id);
       this.notificationCollection.addListener((rows, changes) => {
-         if (this.state.offer.token != null && this.state.shareShown != true) {
-           this.presentShareUI();
-         } else {
-           this.forceUpdate();
-         }
+         this.checkToken();
       });
+    }
+
+    checkToken() {
+      if (this.state.offer.token != null && this.state.shareShown != true) {
+        this.presentShareUI();
+      } else {
+        this.forceUpdate();
+      }
     }
 
     presentShareUI() {
@@ -89,7 +92,12 @@ class InvitePeople extends Component {
         contents = this.renderMessage(this.state.offer.statusMessage, 'red');
         
       } else if (this.state.offer.token == null) {
-        contents = this.renderMessage('Downloading token', 'white');
+        contents = <View>
+          { this.renderMessage('Downloading token', 'white') }
+            <View style={styles.row}>
+              <RoundedButton innerText="Check" onPress={this.checkToken.bind(this)} />
+            </View>
+          </View>;
 
       } else if (this.state.offer.token.length > 0) {
         contents = this.renderTokenInterface(this.state.offer.token);
