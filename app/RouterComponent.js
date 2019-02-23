@@ -24,7 +24,7 @@ import CreateBand from './components/account/CreateBand';
 import JoinGroup from './components/account/JoinGroup';
 import Model from './Model';
 import Cache from './Cache';
-import {realmServer, realmURL, authURL, uploadBaseURL, uploadedTracksBaseUrl} from '../config.js';
+import {realmServer, authURL, uploadBaseURL, uploadedTracksBaseUrl} from '../config.js';
 
 let cache = new Cache();
 
@@ -49,7 +49,7 @@ class RouterComponent extends Component {
     };
     this.fullMenu = {
       "Invite": {handler: ()=>{
-        Actions.invite();
+        this.invitePeople();
       }},
       "Switch band": {handler: ()=>{
         Actions.join();
@@ -62,6 +62,11 @@ class RouterComponent extends Component {
         Actions.login({});
       }}
     };
+  }
+
+  invitePeople() {
+    let url = this.state.model.connectedUrl();
+    Actions.invite({realmUrl: url});
   }
 
   createBand() {
@@ -165,10 +170,7 @@ class RouterComponent extends Component {
       <Scene
         key='invite'
         component={InvitePeople}
-        managementRealmGetter={() => {
-          return Model.currentUserManagementRealm();
-        }}
-        realmUrl={realmURL}
+        model={this.state.model}
       />
     );
   }

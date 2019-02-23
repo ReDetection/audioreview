@@ -96,7 +96,7 @@ class Model {
       });
       let bands = this.bands();
       if (bands.length > 0) {
-        this.reconnectToRealm(bands[0].realmUrl);
+        this.reconnectToRealm(bands[0]);
       }
     }
 
@@ -114,10 +114,15 @@ class Model {
       return band;
     }
 
+    connectedUrl() {
+      return this.connectedRealmUrl;
+    }
+
     reconnectToRealm(band) {
       this.userRealm.write(()=>{
         band.lastOpen = new Date();
       });
+      this.connectedRealmUrl = band.realmUrl;
       this.realm = new Realm({
         sync: {
           user: this.user,
