@@ -104,6 +104,12 @@ class Model {
       return this.userRealm.objects('Band').sorted('lastOpen', true);
     }
 
+    registerBand(title, url) {
+      this.userRealm.write(()=>{
+        this.userRealm.create('Band', {realmUrl: url, title: title, joinedOn: new Date(), lastOpen: new Date()});
+      });
+    }
+
     createBand(titled, uuid) {
       let path = '~/' + uuid;
       let band = null;
@@ -123,10 +129,14 @@ class Model {
         band.lastOpen = new Date();
       });
       this.connectedRealmUrl = band.realmUrl;
+      if (this.connectedRealmUrl.charAt(0) === '/') {
+        this.connectedRealmUrl = this.connectedRealmUrl.substr(1);
+      }
+
       this.realm = new Realm({
         sync: {
           user: this.user,
-          url: this.realmServerURL + band.realmUrl,
+          url: this.realmServerURL + this.connectedRealmUrl,
         },
         schema: [RepetitionSchema, TrackSchema, CommentSchema, NicknameSchema, ConfigSchema],
         schemaVersion: 3,

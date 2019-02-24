@@ -20,6 +20,12 @@ class RealmListView extends Component {
     this.applyCollection(this.props.collection);
   }
 
+  componentWillUnmount() {
+    if (this.state.collection != undefined) {
+      this.state.collection.removeListener(this.listener);
+    }
+  }
+
   applyCollection(collection) {
     if (this.state.collection != undefined) {
       this.state.collection.removeListener(this.listener);

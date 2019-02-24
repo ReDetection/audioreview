@@ -54,6 +54,9 @@ class RouterComponent extends Component {
       "Switch band": {handler: ()=>{
         Actions.bands();
       }},
+      "Join": {handler: ()=>{
+        Actions.join();
+      }},
       "Create band": {handler: ()=>{
         this.createBand();
       }},
@@ -82,18 +85,17 @@ class RouterComponent extends Component {
     Actions.createBand({type: ActionConst.PUSH});
   }
 
-  changeModelTo(modelUrl) {
-    let newState = {modelURL: modelUrl, model: null};
-    if (newState.modelURL != null) {
-      newState.model = new Model(realmServer, this.state.nickname);
-    }
-    this.setState(newState);
-    Actions.root();
+  refreshModel() {
+    let newState = {model: new Model(realmServer, this.state.nickname)};
+    this.setState(newState, ()=>{
+      Actions.root();
+    });
   }
 
   render() {
     var loginState = 'loggedOut';
     if (Model.loggedIn) {
+      var hasBands = this.state.model.bands().length > 0;
       if (this.state.model != null && this.state.model.databaseRunning) {
         loginState = 'attached';
       } else {
@@ -108,7 +110,7 @@ class RouterComponent extends Component {
         {this.renderUploadScene()}
         {this.renderCreateAlbumScene()}
         {this.renderInviteScene()}
-        {this.renderBandsScene()}
+        {this.renderBandsScene({shouldShowMenu: loginState === 'loggedIn'})}
         {this.renderJoinScene({initial: loginState === 'loggedIn', shouldShowMenu: loginState === 'loggedIn'})}
         {this.renderCreateBandScene({shouldShowMenu: loginState === 'loggedIn'})}
         {this.renderMentionsScene()}
@@ -196,19 +198,24 @@ class RouterComponent extends Component {
         }}
         menuOptions={this.logoutMenu}
         {...additional}
-        callback={this.changeModelTo.bind(this)}
+        callback={(url)=>{
+          this.state.model.registerBand('joined', url);
+          this.refreshModel();
+        }}
       />
     );
   }
-  renderBandsScene() {
+  renderBandsScene(additional) {
     return (
       <Scene
         key='bands'
         component={BandList}
         model={this.state.model}
         menuOptions={this.logoutMenu}
+        {...additional}
         callbackBand={(band)=>{
-          this.changeModelTo(band.realmUrl);
+          this.state.model.reconnectToRealm(band);
+          Actions.root({model: this.state.model});
         }}
       />
     );
@@ -221,7 +228,7 @@ class RouterComponent extends Component {
         model={this.state.model}
         menuOptions={this.logoutMenu}
         {...additional}
-        callback={this.changeModelTo.bind(this)}
+        callback={this.refreshModel.bind(this)}
       />
     );
   }
