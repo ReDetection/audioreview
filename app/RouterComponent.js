@@ -22,6 +22,7 @@ import ComposeComment from './components/comments/ComposeComment';
 import InvitePeople from './components/account/InvitePeople';
 import CreateBand from './components/account/CreateBand';
 import JoinGroup from './components/account/JoinGroup';
+import BandList from './components/account/BandList';
 import Model from './Model';
 import Cache from './Cache';
 import {realmServer, authURL, uploadBaseURL, uploadedTracksBaseUrl} from '../config.js';
@@ -51,7 +52,7 @@ class RouterComponent extends Component {
         this.invitePeople();
       }},
       "Switch band": {handler: ()=>{
-        Actions.join();
+        Actions.bands();
       }},
       "Create band": {handler: ()=>{
         this.createBand();
@@ -107,6 +108,7 @@ class RouterComponent extends Component {
         {this.renderUploadScene()}
         {this.renderCreateAlbumScene()}
         {this.renderInviteScene()}
+        {this.renderBandsScene()}
         {this.renderJoinScene({initial: loginState === 'loggedIn', shouldShowMenu: loginState === 'loggedIn'})}
         {this.renderCreateBandScene({shouldShowMenu: loginState === 'loggedIn'})}
         {this.renderMentionsScene()}
@@ -195,6 +197,19 @@ class RouterComponent extends Component {
         menuOptions={this.logoutMenu}
         {...additional}
         callback={this.changeModelTo.bind(this)}
+      />
+    );
+  }
+  renderBandsScene() {
+    return (
+      <Scene
+        key='bands'
+        component={BandList}
+        model={this.state.model}
+        menuOptions={this.logoutMenu}
+        callbackBand={(band)=>{
+          this.changeModelTo(band.realmUrl);
+        }}
       />
     );
   }

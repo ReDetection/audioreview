@@ -13,40 +13,22 @@ import {
 import RealmListView from '../general/RealmListView';
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
-import AlbumItem from './AlbumItem';
-import AlbumItemRaw from './AlbumItemRaw';
+import BandItem from './BandItem';
 import NativeMenu from '../account/NativeMenu';
 
 
-class AlbumList extends Component {
-
-  componentDidMount() {
-    var url = Linking.getInitialURL().then((url) => {
-      this.handleOpenURL(url);
-    }).catch(err => console.error('An error occurred', err));
-    Linking.addEventListener('url', this.handleOpenURLEvent.bind(this));
-  }
-  
-  componentWillUnmount() {
-    Linking.removeEventListener('url', this.handleOpenURLEvent.bind(this));
-  }
-
-  handleOpenURLEvent(event) {
-    this.handleOpenURL(event.url);
-  }
-
-  handleOpenURL(url) {
-    if (url) {
-      Actions.upload({url: url});
-    }
-  }
+class BandList extends Component {
 
   openMenu() {
     this.refs.nativeMenu.present();
   }
 
+  chooseBand(band) {
+    this.props.callbackBand(band);
+  }
+
   renderAddAlbum() {
-    return <TouchableHighlight style={styles.addAlbum} onPress={ ()=>Actions.createAlbum() } >
+    return <TouchableHighlight style={styles.addAlbum} onPress={ ()=>Actions.createBand() } >
       <Image source={require('../general/empty.png')} style={{flex:1, flexShrink: 1, height: 141}} resizeMode='contain'/>
     </TouchableHighlight>;
   }
@@ -55,21 +37,14 @@ class AlbumList extends Component {
     return (
       <NativeMenu options={this.props.menuOptions} ref="nativeMenu">
         <Text style={styles.welcome}>
-          Albums
+          Bands
         </Text>
         <View style={ styles.headerClose }>
           <Text onPress={ this.openMenu.bind(this) } size={14} style={{color: "#fff"}}>Account</Text>
         </View>
-        <View style={ styles.headerRight }>
-          <Text onPress={ () => { Actions.mentions({collection: this.props.model.comments, title: "Comments Feed" }) }} 
-            onLongPress={ () => { Actions.mentions({collection: this.props.model.mentions, title: "Mentions" }) }}
-            size={14} style={{color: "#fff"}}>
-              Comments
-          </Text>
-        </View>
-        <RealmListView collection={this.props.model.repetitions}
+        <RealmListView collection={this.props.model.bands()}
           renderFooter={ this.renderAddAlbum.bind(this) }
-          renderRow={ ( album ) => <AlbumItem repetition={ album } onPress={ () => Actions.albumShow({ repetition: album }) }/> }/>
+          renderRow={ ( band ) => <BandItem band={ band } onPress={ () => {this.chooseBand(band)} }/> }/>
       </NativeMenu>
     );
   }
@@ -114,4 +89,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = AlbumList;
+module.exports = BandList;

@@ -110,7 +110,7 @@ class Model {
       this.userRealm.write(()=>{
         band = this.userRealm.create('Band', {realmUrl: path, title: titled, joinedOn: new Date(), lastOpen: new Date()});
       });
-      reconnectToRealm(band);
+      this.reconnectToRealm(band);
       return band;
     }
 
