@@ -43,8 +43,7 @@ class RouterComponent extends Component {
         this.createBand();
       }},
       "Logout": {destructive: true, handler: ()=>{
-        Model.currentUser.logout();
-        Actions.login({});
+        this.logout();
       }}
     };
     this.fullMenu = {
@@ -58,15 +57,24 @@ class RouterComponent extends Component {
         this.createBand();
       }},
       "Logout": {destructive: true, handler: ()=>{
-        Model.currentUser.logout();
-        Actions.login({});
+        this.logout();
       }}
     };
   }
 
+  logout() {
+    this.state.model.logout();
+    let newModel = new Model(realmServer, this.state.nickname);
+    this.setState({model: newModel}, ()=>{
+      Actions.login();
+    });
+  }
+
   invitePeople() {
     let url = this.state.model.connectedUrl();
-    Actions.invite({realmUrl: url});
+    if (!url.startsWith('~')) {
+      Actions.invite({realmUrl: url});      
+    }
   }
 
   createBand() {
@@ -113,7 +121,7 @@ class RouterComponent extends Component {
     let newModel = new Model(realmServer, nickname);
     newModel.connectWithUser(user);
     this.setState({'nickname': nickname, model: newModel}, ()=>{
-      Actions.join({type: ActionConst.REPLACE});      
+      Actions.join({type: ActionConst.RESET});
     });
   }
 
@@ -126,7 +134,7 @@ class RouterComponent extends Component {
         authURL={authURL}
         loginCallback={this.didLogin.bind(this)}
         {...additional}
-        type={ActionConst.REPLACE}
+        type={ActionConst.RESET}
       />
     );
   }
@@ -139,7 +147,7 @@ class RouterComponent extends Component {
         model={this.state.model}
         menuOptions={this.fullMenu}
         {...additional}
-        type={ActionConst.REPLACE}
+        type={ActionConst.RESET}
       />
     );
   }

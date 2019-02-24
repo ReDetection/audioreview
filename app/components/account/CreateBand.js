@@ -26,7 +26,7 @@ class CreateBand extends Component {
       return <NativeMenu options={this.props.menuOptions} ref="nativeMenu">
         <View style={ styles.header }>
           <Text style={ styles.headerText }>
-            Join team
+            Create team
           </Text>
         </View>
         { this.renderTopLeftButton() }
